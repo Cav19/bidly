@@ -1,0 +1,36 @@
+/* Item module (image and description */
+.item {
+	padding: 0;
+	width: 300px;
+	margin: 0;
+}
+
+.item img {
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	width: inherit;
+}
+ 
+.item .jumbotron {
+	padding: 5px;
+	background-color: white;
+}
+
+.item-text {
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	padding: 5px;
+}
+
+.item-text h4 {
+	margin: 0;
+}
+
+.item-text p {
+
+}
+
+.outline {
+	border-style: solid;
+	border-width: 1px;
+}
