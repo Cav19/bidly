@@ -1,33 +1,33 @@
 /* Item module (image and description */
+:root {
+  --item-rounding-radius: 25px;
+}
+
 .item {
 	padding: 0;
-	width: 300px;
 	margin: 0;
+	width: 300px;
 }
 
 .item img {
-	border-top-left-radius: 25px;
-	border-top-right-radius: 25px;
+	border-top-left-radius: var(--item-rounding-radius);
+	border-top-right-radius: var(--item-rounding-radius);
 	width: inherit;
 }
  
 .item .jumbotron {
-	padding: 5px;
 	background-color: white;
+	padding: 5px;
 }
 
 .item-text {
-	border-bottom-left-radius: 25px;
-	border-bottom-right-radius: 25px;
+	border-bottom-left-radius: var(--item-rounding-radius);
+	border-bottom-right-radius: var(--item-rounding-radius);
 	padding: 5px;
 }
 
 .item-text h4 {
 	margin: 0;
-}
-
-.item-text p {
-
 }
 
 .outline {
