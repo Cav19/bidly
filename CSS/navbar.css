@@ -1,0 +1,33 @@
+.navbar{
+	background-color: #0097a7;
+	height: 180px;
+	display: block;
+}
+
+.nav-img{
+	width: 150px;
+	height: 150px;
+	margin: 15px;
+}
+
+.navbar-left {
+	float: left;
+	width: 20%;
+	text-align: left;
+}
+
+.navbar-center {
+	float: left;
+	width: 60%;
+	text-align: center;
+}
+
+#name {
+	font-size: 3em;
+}
+
+.navbar-right{
+	float: left;
+	width: 20%;
+	text-align: right;
+}
