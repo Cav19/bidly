@@ -72,7 +72,8 @@ body *{
 	margin: auto;
 	font-size: 2em;
 	background-color: #0097a7;
-	border-radius: 15px
+	color: #FFFFFF;
+	border-radius: 15px;
 }
 
 #current_bid {
