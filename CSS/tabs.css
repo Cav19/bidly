@@ -1,0 +1,49 @@
+ul{
+	background-color: lightgrey;
+}
+
+.nav-tabs > li.active{
+	border: none;
+	background-color: white;
+}
+
+.nav-tabs > li > a{
+	padding-top: 12%;
+	padding-bottom: 12%;
+	font-size: 50px;
+}
+
+.bid-section{
+	margin-top: 8%;
+	padding-top: 6%;
+	padding-bottom: 9%;
+	padding-left: 5%;
+	padding-right: 5%;
+	font-size: 60px;
+}
+
+.bid-section p{
+	float: left;
+}
+
+.bid-section span{
+	float: right;
+}
+
+#winning-bids{
+	margin-top: 100px;
+}
+
+#profile{
+	font-size: 70px;
+}
+
+#profile p{
+	margin-top: 10%;
+	margin-left: 10%;
+}
+
+#save{
+	margin-top: 5%;
+	margin-left: 28%;
+}
