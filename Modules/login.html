@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="../CSS/style.css">
+		<link rel="stylesheet" href="../CSS/navbar.css"/>
+		<link rel="stylesheet" href="../CSS/login.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+
+	<nav class="navbar">
+  		<div class="container-fluid">
+	  		<div class="navbar-left">
+	  			<a href="#">
+	  				<img class="nav-img" src="../img/home1.png">
+	  			</a>
+	  		</div>
+
+	  		<div class="navbar-brand navbar-center">
+	    		<h2 id="name">Bidly</h2>
+	    		<h2>Time Remaining: {{time_remaining}}</h2>
+	  		</div>
+
+
+	  		<div class="navbar-right">
+	  			<a href="#">
+	  				<img class="nav-img" src="../img/profile1.png">
+			  	</a>
+	  		</div>
+  		</div>
+	</nav>
+
+	<ul class="nav nav-tabs nav-justified" id="login-tabs">
+		<li class="active"> <a data-toggle="tab" href="#login"> Login </a></li>
+		<li> <a data-toggle="tab" href="#register"> Create Account </a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="login" class="tab-pane fade in active">
+			<p> Username: _________ </p>
+			<p> Password: _________ </p>
+			<button type="submit"> Login </button>
+		</div>
+		<div id="register" class="tab-pane fade">
+			<p> Email: _________ </p>
+			<p> Phone Number: (___) ___-____ </p>
+			<p> Username: ________ </p>
+			<p> Password: ________ </p>
+			<button type="submit"> Register </button>
+		</div>
+	</div>
+
+</html>	
