@@ -6,8 +6,10 @@
 		<link rel="stylesheet" type="text/css" href="../CSS/style.css">
 		<link rel="stylesheet" href="../CSS/navbar.css"/>
 		<link rel="stylesheet" href="../CSS/login.css">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="../JS/login.js"></script>
 	</head>
 
 	<nav class="navbar">
@@ -39,15 +41,15 @@
 
 	<div class="tab-content">
 		<div id="login" class="tab-pane fade in active">
-			<p> Username: _________ </p>
-			<p> Password: _________ </p>
+			<p><input class="underline_input" placeholder="username"/></p>
+			<p><input class="underline_input" placeholder="password"></input></p>
 			<button type="submit"> Login </button>
 		</div>
 		<div id="register" class="tab-pane fade">
-			<p> Email: _________ </p>
-			<p> Phone Number: (___) ___-____ </p>
-			<p> Username: ________ </p>
-			<p> Password: ________ </p>
+			<p><input class="underline_input" placeholder="e-mail"></p>
+			<p> Phone Number: (<input class="underline_input phone_num" maxlength="3" placeholder="XXX" />) <input class="underline_input phone_num" maxlength="3" placeholder="XXX"/> - <input class="underline_input phone_num" maxlength="4" id="last_num" placeholder="XXXX"/></p>
+			<p><input class="underline_input" placeholder="username"></p>
+			<p><input class="underline_input" placeholder="password"></p>
 			<button type="submit"> Register </button>
 		</div>
 	</div>
