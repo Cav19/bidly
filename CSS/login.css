@@ -30,3 +30,14 @@ button{
 	margin-left: 40%;
 	font-size: 60px;	
 }
+
+.underline_input {
+	border: 0px solid transparent;
+	border-bottom: 2px solid #000000;
+	display: inline;
+}
+
+.phone_num {
+	width: 15%;
+	text-align: center;
+}

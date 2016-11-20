@@ -2,6 +2,10 @@ body *{
 	box-sizing: border-box;
 }
 
+body {
+	padding-top: 200px;
+}
+
 .content_div {
 	padding-top: 20px;
 	padding-left: 50px;
