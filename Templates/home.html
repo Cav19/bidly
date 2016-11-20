@@ -4,11 +4,16 @@
   <link rel="stylesheet" type="text/css" href="../CSS/style.css">
   <link rel="stylesheet" type="text/css" href="../CSS/home.css">
   <link rel="stylesheet" href="../CSS/navbar.css"/>
-  <link rel="stylesheet" type="text/css" href="../JS/jcarousel-master/examples/responsive/jcarousel.responsive.css"/>
-  <script type="text/javascript" src="../JS/jcarousel-master/vendor/jquery/jquery.js"></script>
-  <script type="text/javascript" src="../JS/jcarousel-master/dist/jquery.jcarousel.min.js"></script>
-  <script type="text/javascript" src="../JS/jcarousel-master/examples/responsive/jcarousel.responsive.js"></script>
+  <link rel="stylesheet" type="text/css" href="../JS/slick/slick.css"/>
   <meta charset="UTF-8" content="width=device-width, initial-scale=1">
+  
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="../JS/slick/slick.min.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/> -->
+  <script type="text/javascript" src="../JS/home.js"></script>
 </head>
 
 <body>
@@ -40,249 +45,147 @@
     <input type="text" name="search-box" value="Search">
   </div>
 
-  <!-- Item Carousel -->
-  <div class="jcarousel-wrapper">
+  <!-- Item Carousels -->
+
+  <!-- Popular -->
+  <div class="carousel-wrapper">
     <h1> Popular </h1>
-    <div class="jcarousel">
-      <ul>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-      </ul>
+    <div class="carousel">
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
     </div>
-    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
   </div>
-  <div class="jcarousel-wrapper">
+
+  <!-- Recently Viewed -->
+  <div class="carousel-wrapper">
     <h1> Recently Viewed </h1>
-    <div class="jcarousel">
-      <ul>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-      </ul>
+    <div class="carousel">
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
     </div>
-    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
   </div>
-  <div class="jcarousel-wrapper">
-    <h1> Travel </h1>
-    <div class="jcarousel">
-      <ul>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="item container">
-              <img class="outline" src="../img/image.png" alt="" style="">
-              <div class="item-text outline">
-                <p>
-                  <h4>Title</h4>
-                  Current Bid: <br>
-                  Description
-                </p>
-              </div>
-            </div>
-          </li>
-      </ul>
+
+  <!-- Vacation -->
+  <div class="carousel-wrapper">
+    <h1> Vacations </h1>
+    <div class="carousel">
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
+      <div class="item container">
+        <img class="outline" src="../img/image.png" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>Title</h4>
+            Current Bid: <br>
+            Description
+          </p>
+        </div>
+      </div>
     </div>
-    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
   </div>
 </body>
 </html>

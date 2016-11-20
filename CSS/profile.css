@@ -20,6 +20,8 @@ ul{
 	padding-left: 5%;
 	padding-right: 5%;
 	font-size: 60px;
+	clear: both;
+	background-color: black;
 }
 
 .bid-section p{
@@ -28,6 +30,21 @@ ul{
 
 .bid-section span{
 	float: right;
+}
+
+.item {
+	float: left;
+	margin-right: 10% !important;
+
+}
+
+.item-text {
+	font-size: 30px;
+	margin-bottom: 20px;
+}
+
+.item-text h4{
+	font-size: 30px;
 }
 
 #winning-bids{

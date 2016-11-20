@@ -10,28 +10,28 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="../JS/profile.js" type="text/javascript"></script>
 	</head>
+<body>
+	<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-left">
+        <a href="home.html">
+          <img class="nav-img" src="../img/home1.png">
+        </a>
+      </div>
 
-	<nav class="navbar">
-  		<div class="container-fluid">
-	  		<div class="navbar-left">
-	  			<a href="home.html">
-	  				<img class="nav-img" src="../img/home1.png">
-	  			</a>
-	  		</div>
-
-	  		<div class="navbar-brand navbar-center">
-	    		<h2 id="name">Bidly</h2>
-	    		<h2>Time Remaining: {{time_remaining}}</h2>
-	  		</div>
+      <div class="navbar-brand navbar-center">
+        <h2 id="name">Bidly</h2>
+        <h2>Time Remaining: {{time_remaining}}</h2>
+      </div>
 
 
-	  		<div class="navbar-right">
-	  			<a href="profile.html">
-	  				<img class="nav-img" src="../img/profile1.png">
-			  	</a>
-	  		</div>
-  		</div>
-	</nav>
+      <div class="navbar-right">
+        <a href="profile.html">
+          <img class="nav-img" src="../img/profile1.png">
+        </a>
+      </div>
+    </div>
+  </nav>
 
 	<ul class="nav nav-tabs nav-justified" id="main-tabs">
 		<li class="active"> <a data-toggle="tab" href="#my-bids"> My Bids </a></li>
@@ -92,4 +92,5 @@
 			<button id="save" type="submit">Save Changes</button>
 		</div>
 	</div>
+</body>
 </html>
