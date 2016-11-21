@@ -2,21 +2,22 @@
 
 <html>
 	<head>
+	{% load static %}
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="../CSS/style.css">
-		<link rel="stylesheet" href="../CSS/navbar.css"/>
-		<link rel="stylesheet" href="../CSS/login.css">
+		<!-- <link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}"> -->
+		<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}"/>
+		<link rel="stylesheet" href="{% static 'CSS/login.css' %}">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="../JS/login.js"></script>
+		<script src="{% static 'JS/login.js' %}"></script>
 	</head>
 
 	<nav class="navbar">
   		<div class="container-fluid">
 	  		<div class="navbar-left">
 	  			<a href="#">
-	  				<img class="nav-img" src="../img/home1.png">
+	  				<img class="nav-img" src="{% static 'img/home1.png' %}">
 	  			</a>
 	  		</div>
 
@@ -28,7 +29,7 @@
 
 	  		<div class="navbar-right">
 	  			<a href="#">
-	  				<img class="nav-img" src="../img/profile1.png">
+	  				<img class="nav-img" src="{% static 'img/profile1.png' %}">
 			  	</a>
 	  		</div>
   		</div>
