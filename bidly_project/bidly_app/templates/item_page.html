@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../CSS/navbar.css"/>
+		<link rel="stylesheet" href="../CSS/style.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="../CSS/item_page.css"/>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+	<!-- navbar -->
+		<nav class="navbar navbar-fixed-top">
+		  <div class="container-fluid">
+			  <div class="navbar-left">
+			  	<a href="home.html">
+			  		<img class="nav-img" src="../img/home1.png">
+			  	</a>
+			  </div>
+
+			  <div class="navbar-brand navbar-center">
+			    <h2 id="name">Bidly</h2>
+			    <h2>Time Remaining: {{time_remaining}}</h2>
+			  </div>
+
+
+			  <div class="navbar-right">
+			  	<a href="profile.html">
+			  		<img class="nav-img" src="../img/profile1.png">
+			  	</a>
+			  </div>
+		  </div>
+		</nav>
+
+		<div class="content_div">
+			<div class="img_div">
+				<img src="../img/image.png">
+			</div>
+
+			<div class="info_div">
+				<p id="title">Fresh Puppy</p>
+				<p id="worth">Worth: $345</p>
+				<p id="description">Bacon ipsum dolor amet ground round ribeye andouille tenderloin kielbasa, t-bone turkey sausage landjaeger capicola sirloin meatball. Sausage meatball flank turducken kielbasa. Turducken picanha shankle sirloin, ribeye leberkas boudin pork loin salami prosciutto landjaeger ham.</p>
+			</div>
+
+			<div class="bid_div">
+				<p id="your_bid">Your Bid: $ <input id="bid_input" type="number" value=400 /></p>
+				<button id="bid_button">Place Bid</button>
+				<p id="current_bid">Current Bid: $385</p>
+				<p id="increment">Increment: $15</p>
+			</div>
+
+			<div class="recent_bids">
+			</div>
+		</div>
+	</body>
+<html>

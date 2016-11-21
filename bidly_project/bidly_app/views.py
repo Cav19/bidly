@@ -7,7 +7,7 @@ import os
 # Create your views here.
 
 def login(request):
-	return render(request, '../Templates/login.html')
+	return render(request, 'home.html')
 
 	#cwd = os.getcwd()
 	#print(cwd)

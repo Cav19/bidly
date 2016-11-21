@@ -1,0 +1,32 @@
+body {
+	background-color: #f3f3f3;
+}
+
+.search-bar {
+	color: #a3a3a3;
+	font-size: 30px;
+	height: 70px;
+	margin: auto ;
+	margin-top: 20px;
+	width: 30%;
+}
+
+.search-bar input {
+	height: 70px;
+}
+
+/************	Carousel	*********/
+.carousel-wrapper {
+    background-color: white;
+    height: 37%;
+    margin-top: 5%;
+    padding-top: 1%;
+}
+
+.carousel-wrapper h1 {
+    padding-left: 2%;
+}
+
+.item {
+    margin: 20px;
+}

@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from bidly_app import views as bidly_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', bidly_views.login, name="login"),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

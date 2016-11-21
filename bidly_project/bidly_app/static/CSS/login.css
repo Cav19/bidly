@@ -1,0 +1,43 @@
+ul{
+	background-color: lightgrey;
+}
+
+.nav-tabs > li.active{
+	border: none;
+	background-color: white;
+}
+
+.nav-tabs > li > a{
+	padding-top: 12%;
+	padding-bottom: 12%;
+	font-size: 50px;
+}
+
+#login p{
+	margin-top: 15%;
+	margin-left: 15%;
+	font-size: 60px;
+}
+
+#register p{
+	margin-top: 15%;
+	margin-left: 15%;
+	font-size: 40px;
+}
+
+button{
+	margin-top: 13%;
+	margin-left: 40%;
+	font-size: 60px;	
+}
+
+.underline_input {
+	border: 0px solid transparent;
+	border-bottom: 2px solid #000000;
+	display: inline;
+}
+
+.phone_num {
+	width: 15%;
+	text-align: center;
+}
