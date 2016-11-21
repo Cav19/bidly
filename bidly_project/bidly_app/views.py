@@ -9,6 +9,8 @@ import os
 def login(request):
 	return render(request, 'login.html')
 
-	#cwd = os.getcwd()
-	#print(cwd)
-	#return render_to_response('Templates/login.html')
+def home(request):
+	return render(request, 'home.html')
+
+def profile(request):
+	return render(request, 'profile.html')
