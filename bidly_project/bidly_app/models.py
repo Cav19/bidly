@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.contrib.auth.models import User, Group
 # Create your models here.
 
 class Auction(models.Model):
@@ -9,21 +9,17 @@ class Auction(models.Model):
 	end_time = models.DateTimeField('end_time')
 	url = models.CharField(max_length=50)
 
-class User(models.Model):
-	first_name = models.CharField(max_length=40)
-	last_name = models.CharField(max_length=40)
-	username = models.CharField(max_length=20)
-	password = models.CharField(max_length=100)
-	email = models.CharField(max_length=40)
+class Bidly_User(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	phone_number = models.CharField(max_length=11)
 
-	def __str__(self):
-		return self.username
+	# def __str__(self):
+	# 	return self.username
 
 class Role(models.Model):
 	auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	role = models.IntegerField(default=0)
+	user = models.ForeignKey(Bidly_User, on_delete=models.CASCADE)
+	role = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 class Item(models.Model):
 	auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
@@ -39,7 +35,7 @@ class Item(models.Model):
 
 class Bid(models.Model):
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(Bidly_User, on_delete=models.CASCADE)
 	timestamp = models.DateTimeField('bid_time')
 	amount = models.IntegerField(default=0)
 
