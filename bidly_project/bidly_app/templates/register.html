@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bidly</title>
+	</head>
+
+	<body>
+		<h1>Register</h1>
+		{% if registered %}
+		<a href='/home/'>Go to auction </a>
+		{% else %}
+
+		<form id="user_form", method="post" action="/register/", enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ user_form.as_p }}
+			{{ profile_form.as_p }}
+
+			<input type="submit" name="submit" value="Register"/>
+		</form>
+		{% endif %}
+	</body>
+</html>

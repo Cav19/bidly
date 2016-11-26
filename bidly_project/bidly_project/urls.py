@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', bidly_views.login, name="login"),
+    url(r'^register/$', bidly_views.register, name='register'),
     url(r'^home/', bidly_views.home, name="home"),
     url(r'^profile/', bidly_views.profile, name="profile"),
-    url(r'^(?P<auction_name>\w+)$'),
+    # url(r'^(?P<auction_name>\w+)$', bidly_views.home, name="home"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

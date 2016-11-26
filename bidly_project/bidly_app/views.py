@@ -1,7 +1,8 @@
 from bidly_app.forms import UserForm, BidlyUserForm
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context, loader, RequestContext
+from django.template.context_processors import csrf
 import os
 
 
@@ -17,8 +18,9 @@ def profile(request):
 	return render(request, 'profile.html')
 
 def register(request):
-	context = RequestContext(request)
 	registered = False
+	c = {}
+	c.update(csrf(request))
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
@@ -37,13 +39,16 @@ def register(request):
 			registered = True
 
 		else:
-			print user_form.errors, profile_form.errors
+			print(user_form.errors, profile_form.errors)
 
 	else:
 		user_form = UserForm()
 		profile_form = BidlyUserForm()
 
+	c['user_form'] = user_form
+	c['profile_form'] = profile_form
+	c['registered'] = registered
 	return render_to_response(
-			'bidly_app/login.html',
-			{'user_form': user_form, 'profile_form': profile_form, 'registered': registered}, 
-			context)
+			'register.html',
+			c, 
+			RequestContext(request))

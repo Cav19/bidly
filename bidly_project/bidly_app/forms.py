@@ -12,4 +12,4 @@ class UserForm(forms.ModelForm):
 class BidlyUserForm(forms.ModelForm):
 	class Meta:
 		model = Bidly_User
-		fields = ('phone_number')
+		fields = ('phone_number',)
