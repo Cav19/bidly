@@ -18,5 +18,13 @@
 			<input type="submit" name="submit" value="Register"/>
 		</form>
 		{% endif %}
+
+		<h2>Log in</h2>
+		<form id="login_form" method="post" action="/user_login/">
+			{% csrf_token %}
+			Username: <input type="text" name="username" value="" size="50"/><br/>
+			Password: <input type="password" name="password" value="" size="50"/><br/>
+			<input type="submit" value="submit" />
+		</form>
 	</body>
 </html>

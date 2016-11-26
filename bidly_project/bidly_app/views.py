@@ -1,8 +1,9 @@
 from bidly_app.forms import UserForm, BidlyUserForm
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.template.context_processors import csrf
+from django.contrib.auth import authenticate, login
 import os
 
 
@@ -52,3 +53,24 @@ def register(request):
 			'register.html',
 			c, 
 			RequestContext(request))
+
+def user_login(request):
+	c = {}
+	c.update(csrf(request))
+
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+
+		if user:
+			if user.is_active:
+				login(request)
+				return HttpResponseRedirect('/home/')
+			else:
+				return HttpResponse("Your account is disabled.")
+		else:
+			print("Your username or password is incorrect")
+			return HttpResponse("Invalid login details supplied")
+	else:
+		return render_to_response('register.html', c, RequestContext(request))
