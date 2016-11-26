@@ -10,7 +10,8 @@ class Auction(models.Model):
 	url = models.CharField(max_length=50)
 
 class Bidly_User(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.OneToOneField(User)
+	# user = models.ForeignKey(User, on_delete=models.CASCADE)
 	phone_number = models.CharField(max_length=11)
 
 	# def __str__(self):
@@ -27,6 +28,7 @@ class Item(models.Model):
 	increment = models.IntegerField(default=1)
 	name = models.CharField(max_length=30)
 	image_path = models.CharField(max_length=100)
+	# picture = models.ImageField(upload_to='item_images', blank=True)
 	value = models.IntegerField(default=0)
 	description = models.CharField(max_length=500)
 
