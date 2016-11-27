@@ -38,10 +38,10 @@ def register(request):
 			profile.save()
 
 			registered = True
-
+			return HttpResponseRedirect('/home/')
 		else:
 			print(user_form.errors, profile_form.errors)
-
+			
 	else:
 		user_form = UserForm()
 		profile_form = BidlyUserForm()
@@ -50,7 +50,7 @@ def register(request):
 	c['profile_form'] = profile_form
 	c['registered'] = registered
 	return render_to_response(
-			'login.html', # register.html
+			'login.html', 
 			c, 
 			RequestContext(request))
 
@@ -74,6 +74,6 @@ def user_login(request):
 			return HttpResponse("Invalid login details supplied")
 	else:
 		return render_to_response(
-			'login.html', # register.html
+			'login.html', 
 			c, 
 			RequestContext(request))
