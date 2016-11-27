@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="../CSS/navbar.css"/>
-		<link rel="stylesheet" href="../CSS/style.css"/>
+		{% load static %}
+		<link rel="stylesheet" href="{% static '/CSS/navbar.css' %}"/>
+		<link rel="stylesheet" href="{% static '/CSS/style.css' %}"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" href="../CSS/item_page.css"/>
+		<link rel="stylesheet" href="{% static '/CSS/item_page.css' %}"/>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
@@ -14,7 +15,7 @@
 		  <div class="container-fluid">
 			  <div class="navbar-left">
 			  	<a href="home.html">
-			  		<img class="nav-img" src="../img/home1.png">
+			  		<img class="nav-img" src="{% static 'img/home1.png' %}">
 			  	</a>
 			  </div>
 
@@ -26,7 +27,7 @@
 
 			  <div class="navbar-right">
 			  	<a href="profile.html">
-			  		<img class="nav-img" src="../img/profile1.png">
+			  		<img class="nav-img" src="{% static 'img/profile1.png' %}">
 			  	</a>
 			  </div>
 		  </div>
@@ -34,7 +35,7 @@
 
 		<div class="content_div">
 			<div class="img_div">
-				<img src="../img/image.png">
+				<img src="{% static 'img/image.png' %}">
 			</div>
 
 			<div class="info_div">

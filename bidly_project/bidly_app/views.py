@@ -18,6 +18,9 @@ def home(request):
 def profile(request):
 	return render(request, 'profile.html')
 
+def item(request):
+	return render(request, 'item_page.html')
+
 def register(request):
 	registered = False
 	c = {}

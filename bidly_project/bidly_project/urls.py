@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^user_login/$', bidly_views.user_login, name="user_login"),
     url(r'^home/', bidly_views.home, name="home"),
     url(r'^profile/', bidly_views.profile, name="profile"),
+    url(r'^item_page/$', bidly_views.item, name="item_page")
     # url(r'^(?P<auction_name>\w+)$', bidly_views.home, name="home"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
