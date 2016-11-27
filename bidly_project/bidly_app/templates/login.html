@@ -3,6 +3,7 @@
 <html>
 	<head>
 	{% load static %}
+		<title>Bidly</title>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<!-- <link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}"> -->
 		<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}"/>
@@ -12,47 +13,93 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="{% static 'JS/login.js' %}"></script>
 	</head>
-
+<body>
+<!-- Navbar -->
 	<nav class="navbar">
   		<div class="container-fluid">
-	  		<div class="navbar-left">
-	  			<a href="#">
-	  				<img class="nav-img" src="{% static 'img/home1.png' %}">
-	  			</a>
-	  		</div>
-
 	  		<div class="navbar-brand navbar-center">
 	    		<h2 id="name">Bidly</h2>
-	    		<h2>Time Remaining: {{time_remaining}}</h2>
-	  		</div>
-
-
-	  		<div class="navbar-right">
-	  			<a href="#">
-	  				<img class="nav-img" src="{% static 'img/profile1.png' %}">
-			  	</a>
 	  		</div>
   		</div>
 	</nav>
 
+<!-- Tabs -->
 	<ul class="nav nav-tabs nav-justified" id="login-tabs">
 		<li class="active"> <a data-toggle="tab" href="#login"> Login </a></li>
 		<li> <a data-toggle="tab" href="#register"> Create Account </a></li>
 	</ul>
 
 	<div class="tab-content">
+<!-- Log in tab -->
 		<div id="login" class="tab-pane fade in active">
-			<p><input class="underline_input" placeholder="username"/></p>
-			<p><input class="underline_input" placeholder="password"></input></p>
-			<button type="submit"> Login </button>
+			<form id="login_form" method="post" action="/user_login/">
+				{% csrf_token %}
+				<input 
+					type="text"
+					name="username"
+					value=""
+					class="underline_input" 
+					placeholder="username"/>
+				<br/><br/>
+				<input 
+					type="password"
+					name="password"
+					value=""
+					class="underline_input" 
+					placeholder="password"/>
+				<br/><br/>
+				<input type="submit" name="submit" value="Log in"/>
+			</form>
 		</div>
+<!-- Register tab -->
 		<div id="register" class="tab-pane fade">
-			<p><input class="underline_input" placeholder="e-mail"></p>
-			<p> Phone: (<input class="underline_input phone_num" maxlength="3" placeholder="XXX" />) <input class="underline_input phone_num" maxlength="3" placeholder="XXX"/> - <input class="underline_input phone_num" maxlength="4" id="last_num" placeholder="XXXX"/></p>
-			<p><input class="underline_input" placeholder="username"></p>
-			<p><input class="underline_input" placeholder="password"></p>
-			<button type="submit"> Register </button>
+			<form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
+				{% csrf_token %}
+				<input 
+					type="text"
+					name="first_name"
+					value=""
+					class="underline_input" 
+					placeholder="first name"/>
+				<br/><br/>
+				<input 
+					type="text"
+					name="last_name"
+					value=""
+					class="underline_input" 
+					placeholder="last name"/>
+				<br/><br/>
+				<input 
+					type="text"
+					name="email"
+					value=""
+					class="underline_input" 
+					placeholder="e-mail"/>
+				<br/><br/>
+				<input 
+					type="text"
+					name="phone_number"
+					value=""
+					class="underline_input" 
+					placeholder="phone #"/>
+				<br/><br/>
+				<input 
+						type="text"
+						name="username"
+						value=""
+						class="underline_input" 
+						placeholder="username"/>
+				<br/><br/>
+				<input 
+					type="password"
+					name="password"
+					value=""
+					class="underline_input" 
+					placeholder="password"/>
+				<br/><br/>
+				<input type="submit" name="submit" value="Register"/>
+			</form>
 		</div>
 	</div>
-
+</body>
 </html>	

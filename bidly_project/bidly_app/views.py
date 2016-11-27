@@ -50,7 +50,7 @@ def register(request):
 	c['profile_form'] = profile_form
 	c['registered'] = registered
 	return render_to_response(
-			'register.html',
+			'login.html', # register.html
 			c, 
 			RequestContext(request))
 
@@ -73,4 +73,7 @@ def user_login(request):
 			print("Your username or password is incorrect")
 			return HttpResponse("Invalid login details supplied")
 	else:
-		return render_to_response('register.html', c, RequestContext(request))
+		return render_to_response(
+			'login.html', # register.html
+			c, 
+			RequestContext(request))
