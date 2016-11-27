@@ -80,10 +80,20 @@ body {
 	border-radius: 15px;
 }
 
-#current_bid {
+.current_bid_view {
 	font-size: 2.5em;
+}
+
+.increment_view {
+	font-size: 2.5em;
+}
+
+/*#current_bid {
+	font-size: 2.5em;
+	display: inline;
 }
 
 #increment {
 	font-size: 2.5em;
-}
+	display: inline;
+}*/

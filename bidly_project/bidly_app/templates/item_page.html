@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="{% static '/CSS/item_page.css' %}"/>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="{% static 'JS/item_page.js' %}"></script>
 	</head>
 	<body>
 	<!-- navbar -->
@@ -47,8 +48,8 @@
 			<div class="bid_div">
 				<p id="your_bid">Your Bid: $ <input id="bid_input" type="number" value=400 /></p>
 				<button id="bid_button">Place Bid</button>
-				<p id="current_bid">Current Bid: $385</p>
-				<p id="increment">Increment: $15</p>
+				<p class="current_bid_view">Current Bid: $<span id="current_bid">385</span></p>
+				<p class="increment_view">Increment: $<span id="increment">15</span></p>
 			</div>
 
 			<div class="recent_bids">
