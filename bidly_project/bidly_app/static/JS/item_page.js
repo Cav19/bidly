@@ -9,7 +9,7 @@ $(document).ready(function() {
 	currentBid = Number($("#current_bid").html());
 	increment = Number($("increment").html());
 
-	window.setInterval(updateCurrentBid,2000); //currently updates current bid every 2 seconds.
+	window.setTimeout(getCurrentBid,2000); //currently updates current bid every 2 seconds.
 
 	$("#bid_button").click(makeBid);
 
@@ -21,10 +21,9 @@ function getURLParameter(name) {
 
 //update top bid
 function getCurrentBid(){
-	console.log("getting current bid");
 	$.ajax({
 		method: "GET",
-		url: "/top_bid",
+		url: "/get_top_bid",
 		data: {"item_id" : item_id},
 		dataType: "json",
 		success: updateCurrentBid,
@@ -32,19 +31,21 @@ function getCurrentBid(){
 	});
 };
 
-function updateCurrentBid(data){
+var updateCurrentBid = function(data){
 	if (data.status == 200) {
-		var newBid = data.currentBid;
+		var newBid = data.current_bid;
 		$("#current_bid").html(newBid);
 		currentBid = newBid;
 	}
 	else{
 		console.log("Status Code not 200");
 	}
+	window.setTimeout(getCurrentBid,2000); //currently updates current bid every 2 seconds.
 }
 
-function handleCurrentBidError(error){
+var handleCurrentBidError = function(error){
 	console.log(JSON.stringify(error));
+	window.setTimeout(getCurrentBid,2000); //currently updates current bid every 2 seconds.
 }
 
 function makeBid(){
@@ -66,7 +67,7 @@ function makeBid(){
 	});
 };
 
-function bidSuccess(data){
+var bidSuccess = function(data){
 	if (data.status == 200) {
 		//Update currentBid if successful
 		var newBid = data.currentBid;
@@ -79,6 +80,6 @@ function bidSuccess(data){
 	}
 }
 
-function bidError(error){
+var bidError = function(error){
 	console.log(JSON.stringify(error));
 }

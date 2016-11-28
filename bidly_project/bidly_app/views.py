@@ -1,10 +1,13 @@
 from bidly_app.forms import UserForm, BidlyUserForm
+from .models import Auction, Bidly_User, Role, Item, Bid
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login
+from django.core.urlresolvers import reverse
 import os
+import json
 
 
 # Create your views here.
@@ -18,8 +21,21 @@ def home(request):
 def profile(request):
 	return render(request, 'profile.html')
 
+# add code to actually render page based on item requested
 def item(request):
+	item_id = request.GET.get('item_id')
+	print(item_id)
 	return render(request, 'item_page.html')
+
+def make_bid(request):
+	return
+
+def get_top_bid(request):
+	#not yet tested. concerned about how to identify item by its id
+	bids = Bid.objects.filter(item_id=request.GET.get('item_id')).order_by('timestamp')[:1]
+	topBid = bids[0].amount
+	response = {'status' : 200, 'current_bid' : topBid}
+	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def register(request):
 	registered = False
