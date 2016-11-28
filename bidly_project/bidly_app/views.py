@@ -23,16 +23,31 @@ def profile(request):
 
 # add code to actually render page based on item requested
 def item(request):
-	item_id = request.GET.get('item_id')
-	print(item_id)
+	itemId = request.GET.get('item_id')
+	print(itemId)
 	return render(request, 'item_page.html')
 
 def make_bid(request):
-	return
+	itemId = request.POST.get('item_id')
+	userId = request.POST.get('user_id')
+	bidAmount = int(request.POST.get('bid'))
+
+	item = Item.objects.get(pk=itemId)
+	user = Bidly_User.objects.get(pk=userId)
+	#Check to make sure another higher bid hasn't come in. see if we can lock the database later to prevent race conditions
+	bids = Bid.objects.filter(item_id=itemId).order_by('-timestamp')[:1]
+	topBid = bids[0].amount
+	if bidAmount <= topBid:
+		return HttpResponse(json.dumps({'status' : 500, 'error' : "Bid too low"}), content_type='application/json')
+
+	newBid = Bid(item=item, user=user, amount=bidAmount)
+	newBid.save()
+
+	response = {'status' : 200, 'current_bid' : bidAmount}
+	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def get_top_bid(request):
-	#not yet tested. concerned about how to identify item by its id
-	bids = Bid.objects.filter(item_id=request.GET.get('item_id')).order_by('timestamp')[:1]
+	bids = Bid.objects.filter(item_id=request.GET.get('item_id')).order_by('-timestamp')[:1]
 	topBid = bids[0].amount
 	response = {'status' : 200, 'current_bid' : topBid}
 	return HttpResponse(json.dumps(response), content_type='application/json')

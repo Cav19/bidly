@@ -7,11 +7,15 @@ $(document).ready(function() {
 	var idParam = getURLParameter("item_id");
 	item_id = idParam;
 	currentBid = Number($("#current_bid").html());
-	increment = Number($("increment").html());
+	increment = Number($("#increment").html());
 
 	window.setTimeout(getCurrentBid,2000); //currently updates current bid every 2 seconds.
 
 	$("#bid_button").click(makeBid);
+
+	$.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
 
 });
 
@@ -50,17 +54,16 @@ var handleCurrentBidError = function(error){
 
 function makeBid(){
 	var bid = Number($("#bid_input").val());
-	console.log(bid);
 
-	if (bid < currentBid + increment) {
+	if (bid < (currentBid + increment)) {
 		console.log("Bid is too small");
 		return; //Should add notification to front end
 	}
 
 	$.ajax({
 		method: "POST",
-		url: "/make_bid",
-		data: {"item_id" : item_id, "bid" : bid},
+		url: "/make_bid/",
+		data: {"item_id" : item_id, "bid" : bid, "user_id" : 1}, //TODO: How do we find user ID? Is that already handled with django authentication and the cookie?
 		dataType: "json",
 		success: bidSuccess,
 		error: bidError
@@ -70,7 +73,7 @@ function makeBid(){
 var bidSuccess = function(data){
 	if (data.status == 200) {
 		//Update currentBid if successful
-		var newBid = data.currentBid;
+		var newBid = data.current_bid;
 		$("#current_bid").html(newBid);
 		currentBid = newBid;
 		//Also give notification that their bid was successful
@@ -82,4 +85,20 @@ var bidSuccess = function(data){
 
 var bidError = function(error){
 	console.log(JSON.stringify(error));
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
