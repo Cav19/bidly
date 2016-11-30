@@ -2,7 +2,7 @@ from bidly_app.forms import UserForm, BidlyUserForm
 from .models import Auction, Bidly_User, Role, Item, Bid
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import Context, loader, RequestContext
+from django.template import Context, loader, RequestContext, Template
 from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
@@ -24,14 +24,23 @@ def profile(request):
 # add code to actually render page based on item requested
 def item(request):
 	itemId = request.GET.get('item_id')
-	print(itemId)
-	return render(request, 'item_page.html')
+	item = Item.objects.get(pk=itemId)
+	name = item.name
+	startingPrice = item.starting_price
+	increment = item.increment
+	imagePath = item.image_path
+	value = item.value
+	description = item.description
+
+	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description}
+	return render(request, 'item_page.html', context)
 
 def make_bid(request):
 	itemId = request.POST.get('item_id')
 	userId = request.POST.get('user_id')
 	bidAmount = int(request.POST.get('bid'))
 
+	print(request.user)
 	item = Item.objects.get(pk=itemId)
 	user = Bidly_User.objects.get(pk=userId)
 	#Check to make sure another higher bid hasn't come in. see if we can lock the database later to prevent race conditions

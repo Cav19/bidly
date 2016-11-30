@@ -17,9 +17,23 @@
       "starting_price" : 200,
       "increment" : 20,
       "name" : "Fresh Puppy",
-      "image_path" : "puppy.img",
+      "image_path" : "img/image.png",
       "value" : 500,
-      "description" : "Adorable puppy for sad children"
+      "description" : "Adorable puppy for sad children. Would not harm a fly, unless that fly was hurting the sad chiled. At that point, who knows what kind of vicious behavior this bloodthirsty puppy might exhibit. Nonetheless, perfectly safe around children, especially sad ones."
+    }
+  },
+
+  {
+    "model": "bidly_app.Item",
+    "pk": 2,
+    "fields": {
+      "auction" : 1,
+      "starting_price" : 400,
+      "increment" : 50,
+      "name" : "Concentrated Smallpiper",
+      "image_path" : "img/smallpiper.jpg",
+      "value" : 1000,
+      "description" : "The perfect concentrated smallpiper for any occassion. Look at that intense, concentrated posture. Wonderful for any occassion requring any type of melodious reel, jig, or even slow air! Heck, he'll even play a strathspey for you!"
     }
   },
 
