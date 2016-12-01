@@ -44,9 +44,9 @@ def make_bid(request):
 	userId = request.POST.get('user_id')
 	bidAmount = int(request.POST.get('bid'))
 
-	print(request.user)
 	item = Item.objects.get(pk=itemId)
-	user = Bidly_User.objects.get(pk=userId)
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
 	#Check to make sure another higher bid hasn't come in. see if we can lock the database later to prevent race conditions
 	bids = Bid.objects.filter(item_id=itemId).order_by('-timestamp')[:1]
 	if len(bids) > 0:
@@ -54,7 +54,7 @@ def make_bid(request):
 		if bidAmount <= topBid:
 			return HttpResponse(json.dumps({'status' : 500, 'error' : "Bid too low"}), content_type='application/json')
 
-	newBid = Bid(item=item, user=user, amount=bidAmount)
+	newBid = Bid(item=item, user=bidly_user, amount=bidAmount)
 	newBid.save()
 
 	response = {'status' : 200, 'current_bid' : bidAmount}
