@@ -63,7 +63,7 @@ function makeBid(){
 	$.ajax({
 		method: "POST",
 		url: "/make_bid/",
-		data: {"item_id" : item_id, "bid" : bid, "user_id" : 1}, //TODO: How do we find user ID? Is that already handled with django authentication and the cookie?
+		data: {"item_id" : item_id, "bid" : bid},
 		dataType: "json",
 		success: bidSuccess,
 		error: bidError
