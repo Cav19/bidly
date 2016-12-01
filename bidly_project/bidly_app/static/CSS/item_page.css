@@ -18,6 +18,7 @@ body {
 	display: block;
 	margin-bottom: 20px;
 	background-color: #dee0e2;
+	overflow: hidden;
 }
 
 .img_div img {
