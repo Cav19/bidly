@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	var password;
+	onLoad();
+
 	var winChevronPosition = "left";
 	var loseChevronPosition = "left"
 
@@ -23,5 +26,58 @@ $(document).ready(function(){
 			loseChevronPosition = "left";
 		}
 	});
+
+	$("#change-pw").click(function(){
+		var popup = document.getElementById("pwpopup");
+		popup.classList.toggle("show");
+	});
+
+	$("#save").click(function(){
+		$.ajax({
+			method: 'POST', 
+			url: '/change_profile',
+			data: {
+				'email': document.getElementById("email").value,
+				'phone_number': document.getElementById("phone_number").value,
+				'username': document.getElementById("username").value,
+				'userId' : 1 
+			},
+			dataType: 'json',
+			success: saveSuccess,
+			error: handleError
+		});
+	})
 });
 
+function onLoad(){
+	$.ajax({
+		method: 'GET',
+		url: '/get_profile_info',
+		data: {"userId" : 1},
+		dataType: 'json',
+		success: updateProfileInfo,
+		error: handleError
+	});
+}
+
+var updateProfileInfo = function(data){
+	if(data.status == 200){
+		document.getElementById("email").placeholder = data.email;
+		document.getElementById("phone_number").placeholder = data.phone_number;
+		document.getElementById("username").placeholder = data.username;
+		password = data.password;
+	}
+	else{
+		console.log("Error getting profile info.");
+	}
+};
+
+var handleError = function(error){
+	console.log(JSON.stringify(error));
+};
+
+var saveSuccess = function(data){
+	if(data.status == 200){
+		alert("Data saved successfully!");
+	}
+};
