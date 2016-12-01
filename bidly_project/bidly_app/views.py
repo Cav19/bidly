@@ -4,7 +4,8 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext, Template
 from django.template.context_processors import csrf
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 import os
 import json
@@ -12,13 +13,16 @@ import json
 
 # Create your views here.
 
-def login(request):
-	return render(request, 'login.html')
-
+@login_required(login_url='/user_login/')
 def home(request):
-	return render(request, 'home.html')
+	print("home: get_user(request)", get_user(request))
+	print("home: request.user", request.user)
+	context = {'user': get_user(request)}
+	return render(request, 'home.html', context)
 
 def profile(request):
+	print("profile: get_user(request)", get_user(request))
+	print("profile: request.user", request.user)
 	return render(request, 'profile.html')
 
 # add code to actually render page based on item requested
@@ -105,11 +109,14 @@ def user_login(request):
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
-
+		print("login_1: get_user(request)", get_user(request))
+		print("login_1: request.user", request.user)
 		if user:
 			if user.is_active:
-				login(request)
-				return HttpResponseRedirect('/home/')
+				login(request, user)
+				print("login_2: get_user(request)", get_user(request))
+				print("login_2: request.user", request.user)
+				return render_to_response('home.html', c, RequestContext(request))
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
@@ -161,11 +168,12 @@ def change_profile(request):
 	return HttpResponse(json.dumps({'status' : 500, 'error' : "Nothing Changed"}, content_type='application/json'))
 
 def get_profile_info(request):
-	userId = request.GET.get('userId')
-	user = Bidly_User.objects.get(pk=userId)
-	password = user.get_password()
-	phone_number = user.phone_number
-	username = user.get_username()
-	email = user.get_email()
+	# userId = request.GET.get('userId')
+	# user = Bidly_User.objects.get(pk=userId)
+	password = request.user.password
+	bidly_user = Bidly_User.objects.get(user=request.user)
+	phone_number = bidly_user.phone_number
+	username = request.user.username
+	email = request.user.email
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
