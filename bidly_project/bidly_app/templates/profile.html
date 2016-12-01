@@ -85,12 +85,23 @@
 			</div>
 		</div>
 		<div id="profile" class="tab-pane fade">
-			<p>Email: {{ email }}</p>
-			<p>Phone Number: {{ phone_number }}</p>
-			<p>Username: {{ username }}</p>
-			<p>Password: <button type="submit">Change Password</button>
-			</p>
+			<input id="email" type="text" name="email" value="" class="underline_input" placeholder=""/>
+			<input id="phone_number" type="text" name="phone_number" value="" class="underline_input" placeholder=""/>
+			<input id="username" type="text" name="username" value="" class="underline_input" placeholder=""/>
+			<div class="popup">
+				<span class="popuptext" id="pwpopup">
+					<h2>Change Your Password</h2>
+					<form id="pw-form" method="post" action="/changepw/" enctype="multipart/form-data">
+						<input type="text" name="oldpw" value="" class="underline_input" placeholder="current password"/>
+						<input type="text" name="newpw" value = "" class="underline_input" placeholder="new password"/>
+						<input type="text" name="confirmpw" value="" class="underline_input" placeholder="confirm password">
+						<input type="submit" name="submit" value="Save Password"/>
+					</form>
+				</span>
+			</div>
+			<p>Password: *******</p>
 			<button id="save" type="submit">Save Changes</button>
+			<button id="change-pw">Change Password</button>
 		</div>
 	</div>
 </body>

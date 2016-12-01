@@ -124,3 +124,52 @@ def user_login(request):
 			'login.html', 
 			c, 
 			RequestContext(request))
+
+
+# Need a way to have user id here too so can confirm old password entered is same as in database. And to update the password in the database I suppose...
+def changepw(request):
+	if request.method == 'POST':
+		old_password = request.POST['oldpw']
+		password = request.POST['newpw']
+		password_confirm = request.POST['confirmpw']
+		userId = 1 # HALPPPPP
+		if password == password_confirm:
+			user = Bidly_User.objects.get(pk=userId)
+			user.set_password(password)
+			user.save()
+			return render_to_response('profile.html')
+		else:
+			return HttpResponse(json.dumps({'status' : 500, 'error' : "New Passwords Don't Match"}), content_type='application/json')
+
+def change_profile(request):
+	userId = request.POST['userId']
+	username = request.POST['username']
+	email = request.POST['email']
+	phone_number = request.POST['phone_number']
+	changed = False
+
+	user = Bidly_User.objects.get(pk=userId)
+
+	if user.get_username != username:
+		user.set_username(username)
+		changed = True
+	if user.phone_number != phone_number:
+		user.phone_number = phone_number
+		changed = True
+	if user.get_email != email:
+		user.set_email(email)
+		changed = True
+	if changed:
+		user.save()
+		return render_to_response('profile.html')
+	return HttpResponse(json.dumps({'status' : 500, 'error' : "Nothing Changed"}, content_type='application/json'))
+
+def get_profile_info(request):
+	userId = request.GET.get('userId')
+	user = Bidly_User.objects.get(pk=userId)
+	password = user.get_password()
+	phone_number = user.phone_number
+	username = user.get_username()
+	email = user.get_email()
+	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
+	return HttpResponse(json.dumps(response), content_type='application/json')
