@@ -10,6 +10,30 @@
   },
 
   {
+    "model" : "bidly_app.Category",
+    "pk" : 1,
+    "fields" : {
+      "category_name" : "Miscellaneous"
+    }
+  },
+
+  {
+    "model" : "bidly_app.Category",
+    "pk" : 2,
+    "fields" : {
+      "category_name" : "Fresh Meat"
+    }
+  },
+
+  {
+    "model" : "bidly_app.Category",
+    "pk" : 3,
+    "fields" : {
+      "category_name" : "Music"
+    }
+  },
+  
+  {
     "model": "bidly_app.Item",
     "pk": 1,
     "fields": {
@@ -17,6 +41,7 @@
       "starting_price" : 200,
       "increment" : 20,
       "name" : "Fresh Puppy",
+      "category" : 2,
       "image_path" : "img/image.png",
       "value" : 500,
       "description" : "Adorable puppy for sad children. Would not harm a fly, unless that fly was hurting the sad chiled. At that point, who knows what kind of vicious behavior this bloodthirsty puppy might exhibit. Nonetheless, perfectly safe around children, especially sad ones."
@@ -31,6 +56,7 @@
       "starting_price" : 400,
       "increment" : 50,
       "name" : "Concentrated Smallpiper",
+      "category" : 3,
       "image_path" : "img/smallpiper.jpg",
       "value" : 1000,
       "description" : "The perfect concentrated smallpiper for any occassion. Look at that intense, concentrated posture. Wonderful for any occassion requring any type of melodious reel, jig, or even slow air! Heck, he'll even play a strathspey for you!"
