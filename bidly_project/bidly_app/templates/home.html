@@ -48,10 +48,25 @@
   <!-- Item Carousels -->
 
   <!-- Popular -->
+  
+
+
   <div class="carousel-wrapper">
     <h1> Popular </h1>
     <div class="carousel">
+    {% for item in all_items %}
       <div class="item container">
+        <img class="outline" src="{% static 'img/image.png' %}" alt="" style="">
+        <div class="item-text outline">
+          <p>
+            <h4>{{ item.name }}</h4>
+            Current Bid: <br>
+            {{ item.description }}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+     <!--  <div class="item container">
         <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
         <div class="item-text outline">
           <p>
@@ -90,9 +105,9 @@
             Description
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
-  </div>
+  </div> 
 
   <!-- Recently Viewed -->
   <div class="carousel-wrapper">
