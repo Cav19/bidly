@@ -7,17 +7,22 @@ from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 import os
 import json
 
 
 # Create your views here.
 
-@login_required(login_url='/user_login/')
+#@login_required(login_url='/user_login/')
 def home(request):
+	all_items = Item.objects.all()
+	for item in all_items:
+		item.description = item.description[:80] + "..."
+	get_popular_items(all_items)
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
-	context = {'user': get_user(request)}
+	context = {'user': get_user(request), 'all_items' : all_items}
 	return render(request, 'home.html', context)
 
 def profile(request):
@@ -181,3 +186,9 @@ def get_profile_info(request):
 	email = request.user.email
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
+
+def get_popular_items(all_items):
+	popular_items = []
+	counts = Bid.objects.annotate(count=Count('item_id')).filter(item__auction_id=1).order_by('-count')[:10]
+	for count in counts:
+		print(count.count)
