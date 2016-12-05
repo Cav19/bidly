@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 import os
 import json
+import operator
 
 
 # Create your views here.
@@ -19,10 +20,10 @@ def home(request):
 	all_items = Item.objects.all()
 	for item in all_items:
 		item.description = item.description[:80] + "..."
-	get_popular_items(all_items)
+	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
-	context = {'user': get_user(request), 'all_items' : all_items}
+	context = {'user': get_user(request), 'all_items' : all_items, 'popular_items' : popular_items}
 	return render(request, 'home.html', context)
 
 def profile(request):
@@ -187,8 +188,19 @@ def get_profile_info(request):
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
-def get_popular_items(all_items):
+def get_popular_items():
+	item_counts = {}
+	popular_items_tuples = []
+	popular_bids = Bid.objects.filter(item__auction_id=1) #Change this auction id later. 
+	for bid in popular_bids:
+		if bid.item_id not in item_counts:
+			item_counts[bid.item_id] = 1
+		else:
+			item_counts[bid.item_id] += 1
+	for item in item_counts:
+		popular_items_tuples.append((Item.objects.get(pk=item), item_counts[item]))
 	popular_items = []
-	counts = Bid.objects.annotate(count=Count('item_id')).filter(item__auction_id=1).order_by('-count')[:10]
-	for count in counts:
-		print(count.count)
+	for item in sorted(popular_items_tuples, key=lambda x: x[1], reverse=True):
+		popular_items.append(item[0])
+	return popular_items
+
