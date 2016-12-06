@@ -61,6 +61,10 @@ body {
 	margin-right: 10px;
 }
 
+.bid_div *{
+	margin-bottom: 10px;
+}
+
 #your_bid {
 	font-size: 2.5em;
 	font-weight: bold;
@@ -74,11 +78,17 @@ body {
 	width: 80%;
 	height: 60px;
 	display: block;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
 	font-size: 2em;
 	background-color: #0097a7;
 	color: #FFFFFF;
 	border-radius: 15px;
+}
+
+#for_input {
+	width: 80%;
+	border: 1px solid black;
 }
 
 .current_bid_view {
@@ -89,6 +99,13 @@ body {
 	font-size: 2.5em;
 }
 
+#for_p {
+	font-size: 2.5em;
+}
+
+/*#for_input {
+	font-size: 2.5em;
+}*/
 /*#current_bid {
 	font-size: 2.5em;
 	display: inline;

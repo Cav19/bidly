@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django.contrib.auth.models import Group
 import os
 import json
 import operator
@@ -18,6 +19,7 @@ import operator
 #@login_required(login_url='/user_login/')
 def home(request):
 	all_items = Item.objects.all()
+	print(all_items)
 	all_categories = Category.objects.all()
 	items_by_category = {}
 	for category in all_categories:
@@ -49,7 +51,12 @@ def item(request):
 	value = item.value
 	description = item.description
 
-	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description}
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
+	role = Role.objects.get(user=bidly_user)
+	groupName = role.role.name
+
+	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description, 'role' : groupName}
 	return render(request, 'item_page.html', context)
 
 def make_bid(request):
@@ -101,6 +108,12 @@ def register(request):
 			profile.user = user
 			profile.save()
 
+			#TODO: change auction to be dynamic, and establish how different account are 'promoted'
+			group = Group.objects.get(name="bidder")
+			auction = Auction.objects.get(pk=1)
+			role = Role(auction=auction, role=group, user=profile)
+			role.save()
+
 			registered = True
 			return HttpResponseRedirect('/home/')
 		else:
@@ -133,7 +146,8 @@ def user_login(request):
 				login(request, user)
 				print("login_2: get_user(request)", get_user(request))
 				print("login_2: request.user", request.user)
-				return render_to_response('home.html', c, RequestContext(request))
+				return home(request)
+				# return render_to_response('home.html', c, RequestContext(request))
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
