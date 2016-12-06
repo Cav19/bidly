@@ -69,6 +69,7 @@
   </div> 
 
   {% for key, value in items_by_category.items %}
+  {% if value|length != 0 %}
   <div class="carousel-wrapper">
     <h1> {{ key }} </h1>
     <div class="carousel">
@@ -86,6 +87,8 @@
       {% endfor %}
     </div>
   </div>
+  {% endif %}
   {% endfor %}
+
 </body>
 </html>
