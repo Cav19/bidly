@@ -1,0 +1,89 @@
+body {
+	background-color: #f3f3f3;
+	padding-top: 70px;
+}
+
+.navbar{
+	height:5%;
+}
+
+.navbar-brand {
+	padding-top: 5px;
+}
+
+.navbar-brand h2 {
+	margin :0;
+	font-size: 1em;
+}
+
+.nav-img {
+	height: 40px;
+	width: 40px;
+	margin-top: 5px;
+}
+
+#name {
+	font-size: 1.2em;
+	margin: 0;
+}
+
+.search-bar {
+	color: #a3a3a3;
+	font-size: 30px;
+	height: 70px;
+	margin: auto ;
+	margin-top: 0;
+	width: 30%;
+}
+
+.search-bar input {
+	height: 40px;
+}
+
+/************	Carousel	*********/
+.carousel-wrapper {
+	width: 100%;
+    background-color: white;
+    height: 450px;
+    padding-top: 1%;    
+    margin-bottom: 3%;
+}
+
+.carousel-wrapper h1 {
+    padding-left: 2%;
+}
+
+.carousel {
+	width: 90%;
+	margin: auto;
+}
+
+.item {
+    margin: 0;
+}
+
+.carousel .item:first-child {
+	margin-left: 20%;
+}
+
+.item img {
+	width: 200px;
+}
+
+.outline {
+	width: 200px;
+}
+
+.slick-prev {
+    margin-left: 40px;
+}
+
+.slick-next {
+	margin-right: 40px;
+}
+
+.slick-prev:before, .slick-next:before{
+    color:black !important;
+}
+
+
