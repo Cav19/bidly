@@ -23,6 +23,9 @@ class Role(models.Model):
 
 class Category(models.Model):
 	category_name = models.CharField(max_length=30)
+
+	def __str__(self):
+		return self.category_name
 	
 class Item(models.Model):
 	auction = models.ForeignKey(Auction, on_delete=models.CASCADE)

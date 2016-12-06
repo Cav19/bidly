@@ -16,7 +16,6 @@
 </head>
 
 <body>
-  {{user}}
   <!-- navbar -->
   <nav class="navbar navbar-fixed-top">
     <div class="container-fluid">
@@ -54,7 +53,7 @@
   <div class="carousel-wrapper">
     <h1> Popular </h1>
     <div class="carousel">
-    {% for item in all_items %}
+    {% for item in popular_items %}
       <div class="item container">
         <img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
         <div class="item-text outline">
@@ -69,98 +68,24 @@
     </div>
   </div> 
 
-  <!-- Recently Viewed -->
+  {% for key, value in items_by_category.items %}
   <div class="carousel-wrapper">
-    <h1> Recently Viewed </h1>
+    <h1> {{ key }} </h1>
     <div class="carousel">
+    {% for item in value %}
       <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
+        <img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
         <div class="item-text outline">
           <p>
-            <h4>Title</h4>
+            <h4>{{ item.name }}</h4>
             Current Bid: <br>
-            Description
+            {{ item.description }}
           </p>
         </div>
       </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
-
-  <!-- Vacation -->
-  <div class="carousel-wrapper">
-    <h1> Vacations </h1>
-    <div class="carousel">
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-      <div class="item container">
-        <img class="outline" src="{%  static 'img/image.png' %}" alt="" style="">
-        <div class="item-text outline">
-          <p>
-            <h4>Title</h4>
-            Current Bid: <br>
-            Description
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% endfor %}
 </body>
 </html>

@@ -1,5 +1,5 @@
 from bidly_app.forms import UserForm, BidlyUserForm
-from .models import Auction, Bidly_User, Role, Item, Bid
+from .models import Auction, Bidly_User, Role, Item, Bid, Category
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext, Template
@@ -18,18 +18,25 @@ import operator
 #@login_required(login_url='/user_login/')
 def home(request):
 	all_items = Item.objects.all()
-	for item in all_items:
-		item.description = item.description[:80] + "..."
+	all_categories = Category.objects.all()
+	items_by_category = {}
+	for category in all_categories:
+		items = Item.objects.filter(category=category)
+		items_by_category[category] = items
 	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
-	context = {'user': get_user(request), 'all_items' : all_items, 'popular_items' : popular_items}
+	context = {'user': get_user(request), 'all_items' : all_items, 'popular_items' : popular_items, 'items_by_category' : items_by_category}
 	return render(request, 'home.html', context)
 
 def profile(request):
 	print("profile: get_user(request)", get_user(request))
 	print("profile: request.user", request.user)
-	return render(request, 'profile.html')
+	bids = get_win_loss_bids(request)
+	winning_bids = bids[0]
+	losing_bids = bids[1]
+	context = {'winning_bids' : winning_bids, 'losing_bids' : losing_bids}
+	return render(request, 'profile.html', context)
 
 # add code to actually render page based on item requested
 def item(request):
@@ -201,6 +208,28 @@ def get_popular_items():
 		popular_items_tuples.append((Item.objects.get(pk=item), item_counts[item]))
 	popular_items = []
 	for item in sorted(popular_items_tuples, key=lambda x: x[1], reverse=True):
+		item[0].description = item[0].description[:80] + "..."
 		popular_items.append(item[0])
 	return popular_items
 
+def get_win_loss_bids(request):
+	all_items = Item.objects.filter(auction_id=1)
+	user = Bidly_User.objects.get(user=request.user)
+	all_bids = Bid.objects.filter(item__auction_id=1, user=user).order_by('-timestamp') #Change this auction id later.
+	winning_bids = []
+	losing_bids = []
+	for item in all_items:
+		item_bids = Bid.objects.filter(item=item).order_by('-timestamp')
+		if len(item_bids) > 0:
+			top_bid = item_bids[0]
+		else:
+			continue
+		for bid in all_bids:
+			if bid.item == item:
+				if all_bids[0].user == user:
+					winning_bids.append(item)
+					break
+				else:
+					losing_bids.append(item)
+					break
+	return [winning_bids, losing_bids]

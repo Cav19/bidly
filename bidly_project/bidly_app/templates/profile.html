@@ -45,42 +45,36 @@
 				<p>Winning Bids</p>
 				<span class="glyphicon glyphicon-chevron-left" id="win-chevron" type="button" data-toggle="collapse" data-target="#winning-bids" aria-expanded="false"></span>
 				<div class="collapse" id="winning-bids">
+				{% for item in winning_bids %}
 					<div class="item container">
-						<img class="outline" src="../img/image.png" alt="" style="">
+						<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
 						<div class="item-text outline">
 						<p>
-						<h4>Title</h4>
+						<h4>{{ item.name }}</h4>
 						Current Bid: <br>
-						Description
+						{{ item.description }}
 						</p>
 						</div>
 					</div>
-					<div class="item container">
-						<img class="outline" src="../img/image.png" alt="" style="">
-						<div class="item-text outline">
-						<p>
-						<h4>Title</h4>
-						Current Bid: <br>
-						Description
-						</p>
-						</div>
-					</div>
-					<div class="item container">
-						<img class="outline" src="../img/image.png" alt="" style="">
-						<div class="item-text outline">
-						<p>
-						<h4>Title</h4>
-						Current Bid: <br>
-						Description
-						</p>
-						</div>
-					</div>
+				{% endfor %}
 				</div>
 			</div>
 			<div class="bid-section" style="background-color:orange">
 				<p>Losing Bids</p>
 				<span class="glyphicon glyphicon-chevron-left" id="lose-chevron" type="button" data-toggle="collapse" data-target="#losing-bids" aria-expanded="false"></span>
 				<div class="collapse" id="losing-bids">
+				{% for item in losing_bids %}
+					<div class="item container">
+						<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
+						<div class="item-text outline">
+						<p>
+						<h4>{{ item.name }}</h4>
+						Current Bid: <br>
+						{{ item.description }}
+						</p>
+						</div>
+					</div>
+				{% endfor %}
 				</div>
 			</div>
 		</div>
