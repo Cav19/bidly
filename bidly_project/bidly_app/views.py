@@ -1,5 +1,5 @@
 from bidly_app.forms import UserForm, BidlyUserForm
-from .models import Auction, Bidly_User, Role, Item, Bid
+from .models import Auction, Bidly_User, Role, Item, Bid, Category
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext, Template
@@ -7,23 +7,38 @@ from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.db.models import Count
+from django.contrib.auth.models import Group
 import os
 import json
+import operator
 
 
 # Create your views here.
 
-@login_required(login_url='/user_login/')
+#@login_required(login_url='/user_login/')
 def home(request):
+	all_items = Item.objects.all()
+	print(all_items)
+	all_categories = Category.objects.all()
+	items_by_category = {}
+	for category in all_categories:
+		items = Item.objects.filter(category=category)
+		items_by_category[category] = items
+	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
-	context = {'user': get_user(request)}
+	context = {'user': get_user(request), 'all_items' : all_items, 'popular_items' : popular_items, 'items_by_category' : items_by_category}
 	return render(request, 'home.html', context)
 
 def profile(request):
 	print("profile: get_user(request)", get_user(request))
 	print("profile: request.user", request.user)
-	return render(request, 'profile.html')
+	bids = get_win_loss_bids(request)
+	winning_bids = bids[0]
+	losing_bids = bids[1]
+	context = {'winning_bids' : winning_bids, 'losing_bids' : losing_bids}
+	return render(request, 'profile.html', context)
 
 # add code to actually render page based on item requested
 def item(request):
@@ -36,7 +51,12 @@ def item(request):
 	value = item.value
 	description = item.description
 
-	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description}
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
+	role = Role.objects.get(user=bidly_user)
+	groupName = role.role.name
+
+	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description, 'role' : groupName}
 	return render(request, 'item_page.html', context)
 
 def make_bid(request):
@@ -88,6 +108,12 @@ def register(request):
 			profile.user = user
 			profile.save()
 
+			#TODO: change auction to be dynamic, and establish how different account are 'promoted'
+			group = Group.objects.get(name="bidder")
+			auction = Auction.objects.get(pk=1)
+			role = Role(auction=auction, role=group, user=profile)
+			role.save()
+
 			registered = True
 			return HttpResponseRedirect('/home/')
 		else:
@@ -120,7 +146,8 @@ def user_login(request):
 				login(request, user)
 				print("login_2: get_user(request)", get_user(request))
 				print("login_2: request.user", request.user)
-				return render_to_response('home.html', c, RequestContext(request))
+				return home(request)
+				# return render_to_response('home.html', c, RequestContext(request))
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
@@ -181,3 +208,42 @@ def get_profile_info(request):
 	email = request.user.email
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
+
+def get_popular_items():
+	item_counts = {}
+	popular_items_tuples = []
+	popular_bids = Bid.objects.filter(item__auction_id=1) #Change this auction id later. 
+	for bid in popular_bids:
+		if bid.item_id not in item_counts:
+			item_counts[bid.item_id] = 1
+		else:
+			item_counts[bid.item_id] += 1
+	for item in item_counts:
+		popular_items_tuples.append((Item.objects.get(pk=item), item_counts[item]))
+	popular_items = []
+	for item in sorted(popular_items_tuples, key=lambda x: x[1], reverse=True):
+		item[0].description = item[0].description[:80] + "..."
+		popular_items.append(item[0])
+	return popular_items
+
+def get_win_loss_bids(request):
+	all_items = Item.objects.filter(auction_id=1)
+	user = Bidly_User.objects.get(user=request.user)
+	all_bids = Bid.objects.filter(item__auction_id=1, user=user).order_by('-timestamp') #Change this auction id later.
+	winning_bids = []
+	losing_bids = []
+	for item in all_items:
+		item_bids = Bid.objects.filter(item=item).order_by('-timestamp')
+		if len(item_bids) > 0:
+			top_bid = item_bids[0]
+		else:
+			continue
+		for bid in all_bids:
+			if bid.item == item:
+				if all_bids[0].user == user:
+					winning_bids.append(item)
+					break
+				else:
+					losing_bids.append(item)
+					break
+	return [winning_bids, losing_bids]

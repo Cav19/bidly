@@ -13,16 +13,22 @@ class Bidly_User(models.Model):
 	user = models.OneToOneField(User)
 	phone_number = models.CharField(max_length=11)
 
-	# def __str__(self):
-	# 	return self.username
+	def __str__(self):
+		return self.user.username
 
 class Role(models.Model):
 	auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
 	user = models.ForeignKey(Bidly_User, on_delete=models.CASCADE)
 	role = models.ForeignKey(Group, on_delete=models.CASCADE)
 
+	def __str__(self):
+		return str(self.user) + " is a " + self.role.name
+
 class Category(models.Model):
 	category_name = models.CharField(max_length=30)
+
+	def __str__(self):
+		return self.category_name
 	
 class Item(models.Model):
 	auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
