@@ -3,6 +3,7 @@ body {
 	padding-top: 70px;
 }
 
+/* Navbar modifications for web */
 .navbar{
 	height:5%;
 }
@@ -26,6 +27,7 @@ body {
 	font-size: 1.2em;
 	margin: 0;
 }
+/* End navbar modifications for web*/
 
 .search-bar {
 	color: #a3a3a3;

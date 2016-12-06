@@ -18,6 +18,8 @@ import operator
 
 #@login_required(login_url='/user_login/')
 def home(request):
+	css_path="CSS/home_admin.css"
+
 	all_items = Item.objects.all()
 	print(all_items)
 	all_categories = Category.objects.all()
@@ -28,7 +30,13 @@ def home(request):
 	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
-	context = {'user': get_user(request), 'all_items' : all_items, 'popular_items' : popular_items, 'items_by_category' : items_by_category}
+	context = {
+		'user': get_user(request), 
+		'all_items' : all_items, 
+		'popular_items' : popular_items, 
+		'items_by_category' : items_by_category,
+		'css_path': css_path,
+	}
 	return render(request, 'home.html', context)
 
 def profile(request):
