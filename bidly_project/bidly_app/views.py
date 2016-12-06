@@ -94,7 +94,7 @@ def get_top_bid(request):
 		topBid = bids[0].amount
 	else :
 		topBid = 0
-	response = {'status' : 200, 'current_bid' : topBid}
+	response = {'status' : 200, 'current_bid' : topBid, 'item_id' : request.GET.get('item_id')}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def register(request):

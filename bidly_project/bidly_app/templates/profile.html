@@ -46,12 +46,12 @@
 				<span class="glyphicon glyphicon-chevron-left" id="win-chevron" type="button" data-toggle="collapse" data-target="#winning-bids" aria-expanded="false"></span>
 				<div class="collapse" id="winning-bids">
 				{% for item in winning_bids %}
-					<div class="item container">
+					<div class="item container" id="{{item.id}}">
 						<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
 						<div class="item-text outline">
 						<p>
 						<h4>{{ item.name }}</h4>
-						Current Bid: <br>
+						<div class='current-bid'></div><br>
 						{{ item.description }}
 						</p>
 						</div>

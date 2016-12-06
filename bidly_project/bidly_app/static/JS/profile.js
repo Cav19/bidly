@@ -58,6 +58,7 @@ function onLoad(){
 		success: updateProfileInfo,
 		error: handleError
 	});
+	getItemBids();
 }
 
 var updateProfileInfo = function(data){
@@ -80,4 +81,22 @@ var saveSuccess = function(data){
 	if(data.status == 200){
 		alert("Data saved successfully!");
 	}
+};
+
+function getItemBids(){
+	var items = document.getElementsByClassName("item container");
+	for(i = 0; i < items.length; i++){
+		$.ajax({
+			method: 'GET',
+			url: '/get_top_bid',
+			data: {'item_id' : items[i].id},
+			dataType: 'json',
+			success: updateTopBid, 
+			error: handleError
+		});
+	}
+}
+
+var updateTopBid = function(data){
+	$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
 };
