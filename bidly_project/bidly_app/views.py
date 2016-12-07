@@ -64,7 +64,14 @@ def item(request):
 	role = Role.objects.get(user=bidly_user)
 	groupName = role.role.name
 
-	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description, 'role' : groupName}
+	mode = "desktop"
+	cssFile = ""
+	if mode == "desktop":
+		cssFile = "CSS\item_page_desktop.css"
+	elif mode == "mobile":
+		cssFile = "CSS\item_page.css"
+
+	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description, 'role' : groupName, 'mode' : mode, 'css_file' : cssFile}
 	return render(request, 'item_page.html', context)
 
 def make_bid(request):
