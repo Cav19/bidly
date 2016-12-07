@@ -98,5 +98,10 @@ function getItemBids(){
 }
 
 var updateTopBid = function(data){
-	$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
+	if(data.current_bid != null){
+		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
+	}
+	else{
+		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $0";
+	}
 };
