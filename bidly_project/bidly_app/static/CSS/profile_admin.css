@@ -1,0 +1,88 @@
+/* Navbar modifications for web */
+.navbar{
+	height:5%;
+}
+
+.navbar-brand {
+	padding-top: 5px;
+}
+
+.navbar-brand h2 {
+	margin :0;
+	font-size: 1em;
+}
+
+.nav-img {
+	height: 40px;
+	width: 40px;
+	margin-top: 5px;
+}
+
+#name {
+	font-size: 1.2em;
+	margin: 0;
+}
+/* End navbar modifications for web*/
+
+body {
+	padding: 0;
+}
+
+
+.bid-section{
+	margin-top: 8%;
+	overflow: auto;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
+	font-size: 60px;
+	clear: both;
+	background-color: black;
+}
+
+.bid-section p{
+	float: left;
+}
+
+.bid-section span{
+	float: right;
+}
+
+.item {
+	float: left;
+	/*margin-right: 10% !important;*/
+	margin: 7% !important;
+}
+
+
+.item img {
+	width: 200px;
+	height: 200px;
+}
+
+.outline {
+	width: 200px;
+}
+
+.item-text {
+	font-size: 15px;
+	margin-bottom: 20px;
+}
+
+.item-text h4{
+	font-size: 15px;
+}
+
+#winning-bids{
+	margin-top: 100px;
+}
+
+#profile{
+	font-size: 70px;
+}
+
+#profile p{
+	margin-top: 10%;
+	margin-left: 10%;
+}

@@ -5,8 +5,10 @@
 		{% load static %}
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}">
-		<link href="{% static 'CSS/profile.css' %}" rel="stylesheet">
 		<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}">
+		<!-- <link href="{% static 'CSS/profile.css' %}" rel="stylesheet"> -->
+		 <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}{{css_path}}">
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="{% static 'JS/profile.js' %}" type="text/javascript"></script>
@@ -41,42 +43,58 @@
 
 	<div class="tab-content">
 		<div id="my-bids" class="tab-pane fade in active">
-			<div class="bid-section" style="background-color:lightblue">
-				<p>Winning Bids</p>
-				<span class="glyphicon glyphicon-chevron-left" id="win-chevron" type="button" data-toggle="collapse" data-target="#winning-bids" aria-expanded="false"></span>
-				<div class="collapse" id="winning-bids">
-				{% for item in winning_bids %}
-					<div class="item container" id="{{item.id}}">
-						<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
-						<div class="item-text outline">
-						<p>
-						<h4>{{ item.name }}</h4>
-						<div class='current-bid'></div><br>
-						{{ item.description }}
-						</p>
+			{% if not mobile %}
+			<div class="container">
+			  <div class="row">
+			    <div class="col-md-6">
+			    	{% endif %}
+					<div class="bid-section" style="background-color:lightblue">
+						<p>Winning Bids</p>
+						<span class="glyphicon glyphicon-chevron-left" id="win-chevron" type="button" data-toggle="collapse" data-target="#winning-bids" aria-expanded="false"></span>
+						<div class="collapse" id="winning-bids">
+						{% for item in winning_bids %}
+							<div class="item container" id="{{item.id}}">
+								<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
+								<div class="item-text outline">
+								<p>
+								<h4>{{ item.name }}</h4>
+								<div class='current-bid'></div><br>
+								{{ item.description }}
+								</p>
+								</div>
+							</div>
+						{% endfor %}
 						</div>
 					</div>
-				{% endfor %}
+				{% if not mobile %}
 				</div>
-			</div>
-			<div class="bid-section" style="background-color:orange">
-				<p>Losing Bids</p>
-				<span class="glyphicon glyphicon-chevron-left" id="lose-chevron" type="button" data-toggle="collapse" data-target="#losing-bids" aria-expanded="false"></span>
-				<div class="collapse" id="losing-bids">
-				{% for item in losing_bids %}
-					<div class="item container" id="{{item.id}}">
-						<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
-						<div class="item-text outline">
-						<p>
-						<h4>{{ item.name }}</h4>
-						<div class='current-bid'></div><br>
-						{{ item.description }}
-						</p>
+				{% endif %}
+				{% if not mobile %}
+			    <div class="col-md-6">
+				{% endif %}
+					<div class="bid-section" style="background-color:orange">
+						<p>Losing Bids</p>
+						<span class="glyphicon glyphicon-chevron-left" id="lose-chevron" type="button" data-toggle="collapse" data-target="#losing-bids" aria-expanded="false"></span>
+						<div class="collapse" id="losing-bids">
+						{% for item in losing_bids %}
+							<div class="item container" id="{{item.id}}">
+								<img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
+								<div class="item-text outline">
+								<p>
+								<h4>{{ item.name }}</h4>
+								<div class='current-bid'></div><br>
+								{{ item.description }}
+								</p>
+								</div>
+							</div>
+						{% endfor %}
 						</div>
 					</div>
-				{% endfor %}
+		{% if not mobile %}
 				</div>
 			</div>
+		</div>
+		{% endif %}
 		</div>
 		<div id="profile" class="tab-pane fade">
 			<input id="email" type="text" name="email" value="" class="underline_input" placeholder=""/>

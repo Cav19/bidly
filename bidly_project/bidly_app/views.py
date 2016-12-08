@@ -19,6 +19,9 @@ import re
 #@login_required(login_url='/user_login/')
 def home(request):
 	css_path="CSS/home_admin.css"
+	mobile = False
+	if is_request_mobile(request) == "mobile":
+		css_path = "CSS/home.css"
 
 	all_items = Item.objects.all()
 	print(all_items)
@@ -40,12 +43,32 @@ def home(request):
 	return render(request, 'home.html', context)
 
 def profile(request):
+	css_path="CSS/profile.css"
+	mobile = False
+	if is_request_mobile(request) == "mobile":
+		css_path = "CSS/profile.css"
+		mobile = True
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
+	role = Role.objects.get(user=bidly_user)
+	groupName = role.role.name
+
+	groupName = 'admin'
+	if groupName == 'admin':
+		css_path = "CSS/profile_admin.css"
+
+
 	print("profile: get_user(request)", get_user(request))
 	print("profile: request.user", request.user)
 	bids = get_win_loss_bids(request)
 	winning_bids = bids[0]
 	losing_bids = bids[1]
-	context = {'winning_bids' : winning_bids, 'losing_bids' : losing_bids}
+	context = {
+		'winning_bids' : winning_bids, 
+		'losing_bids' : losing_bids,
+		'css_path': css_path,
+		'mobile': mobile,
+	}
 	return render(request, 'profile.html', context)
 
 # add code to actually render page based on item requested
@@ -104,6 +127,10 @@ def get_top_bid(request):
 	response = {'status' : 200, 'current_bid' : topBid, 'item_id' : request.GET.get('item_id')}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
+"""
+Pieces of register and user login code taken from 
+http://www.tangowithdjango.com/book/chapters/login.html
+"""
 def register(request):
 	css_path = "CSS/login_web.css"
 	mobile = False
