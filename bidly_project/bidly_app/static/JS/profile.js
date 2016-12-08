@@ -46,7 +46,11 @@ $(document).ready(function(){
 			success: saveSuccess,
 			error: handleError
 		});
-	})
+	});
+
+	$(".item").click(function(){
+  		window.location.href = "/item_page/?item_id=" + this.id;
+  });
 });
 
 function onLoad(){

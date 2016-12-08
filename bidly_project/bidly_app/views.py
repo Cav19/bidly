@@ -19,16 +19,17 @@ import re
 #@login_required(login_url='/user_login/')
 def home(request):
 	css_path="CSS/home_admin.css"
-	mobile = False
-	if is_request_mobile(request) == "mobile":
+	mode = is_request_mobile(request)
+	if mode == "mobile":
 		css_path = "CSS/home.css"
-
 	all_items = Item.objects.all()
 	print(all_items)
 	all_categories = Category.objects.all()
 	items_by_category = {}
 	for category in all_categories:
 		items = Item.objects.filter(category=category)
+		for item in sorted(items):
+			item.description = item.description[:80] + "..."
 		items_by_category[category] = items
 	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))
@@ -44,19 +45,17 @@ def home(request):
 
 def profile(request):
 	css_path="CSS/profile.css"
-	mobile = False
-	if is_request_mobile(request) == "mobile":
+	mode = is_request_mobile(request)
+	if mode == "mobile":
 		css_path = "CSS/profile.css"
-		mobile = True
-	user = request.user
-	bidly_user = Bidly_User.objects.get(user=user)
-	role = Role.objects.get(user=bidly_user)
-	groupName = role.role.name
+	# user = request.user
+	# bidly_user = Bidly_User.objects.get(user=user)
+	# role = Role.objects.get(user=bidly_user)
+	# groupName = role.role.name
 
 	groupName = 'admin'
 	if groupName == 'admin':
 		css_path = "CSS/profile_admin.css"
-
 
 	print("profile: get_user(request)", get_user(request))
 	print("profile: request.user", request.user)
@@ -67,7 +66,7 @@ def profile(request):
 		'winning_bids' : winning_bids, 
 		'losing_bids' : losing_bids,
 		'css_path': css_path,
-		'mobile': mobile,
+		'mode': mode,
 	}
 	return render(request, 'profile.html', context)
 
@@ -133,10 +132,10 @@ http://www.tangowithdjango.com/book/chapters/login.html
 """
 def register(request):
 	css_path = "CSS/login_web.css"
-	mobile = False
-	if is_request_mobile(request) == "mobile":
+	mode = is_request_mobile(request)
+	if mode == "mobile":
 		css_path = "CSS/login.css"
-	c = {'css_path': css_path, 'mobile': mobile}
+	c = {'css_path': css_path, 'mode': mode}
 	c.update(csrf(request))
 
 	registered = False
@@ -180,11 +179,10 @@ def register(request):
 
 def user_login(request):
 	css_path="CSS/login_web.css"
-	mobile = False
-	if is_request_mobile(request) == "mobile":
+	mode = is_request_mobile(request)
+	if mode == "mobile":
 		css_path = "CSS/login.css"
-		mobile = True
-	c = {'css_path': css_path, 'mobile': mobile}
+	c = {'css_path': css_path, 'mode': mode}
 	c.update(csrf(request))
 
 	if request.method == 'POST':
@@ -292,6 +290,7 @@ def get_win_loss_bids(request):
 			continue
 		for bid in all_bids:
 			if bid.item == item:
+				item.description = item.description[:80] + "..."
 				if all_bids[0].user == user:
 					winning_bids.append(item)
 					break
