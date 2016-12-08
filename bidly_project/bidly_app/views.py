@@ -267,6 +267,7 @@ def get_win_loss_bids(request):
 			continue
 		for bid in all_bids:
 			if bid.item == item:
+				item.description = item.description[:80] + "..."
 				if all_bids[0].user == user:
 					winning_bids.append(item)
 					break
