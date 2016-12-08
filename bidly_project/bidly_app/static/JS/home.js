@@ -11,6 +11,10 @@ $(document).ready(function(){
   });
 
   getItemBids();
+
+  $(".item").click(function(){
+  	window.location.href = "/item_page/?item_id=" + this.id;
+  });
 });
 
  function getItemBids(){
