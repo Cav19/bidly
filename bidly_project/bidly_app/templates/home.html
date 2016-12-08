@@ -53,12 +53,12 @@
     <h1> Popular </h1>
     <div class="carousel">
     {% for item in popular_items %}
-      <div class="item container">
+      <div class="item container" id="{{item.id}}">
         <img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
         <div class="item-text outline">
           <p>
             <h4>{{ item.name }}</h4>
-            Current Bid: <br>
+            <div class='current-bid'></div><br>
             {{ item.description }}
           </p>
         </div>
@@ -73,12 +73,12 @@
     <h1> {{ key }} </h1>
     <div class="carousel">
     {% for item in value %}
-      <div class="item container">
+      <div class="item container" id="{{item.id}}">
         <img class="outline" src="{% get_static_prefix %}{{item.image_path}}" alt="" style="">
         <div class="item-text outline">
           <p>
             <h4>{{ item.name }}</h4>
-            Current Bid: <br>
+            <div class='current-bid'></div><br>
             {{ item.description }}
           </p>
         </div>

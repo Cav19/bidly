@@ -1,0 +1,148 @@
+body *{
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f3f3f3;
+	padding-top: 70px;
+	width: 100%;
+	height: 100%
+}
+
+.navbar{
+	height: 5%;
+}
+
+.navbar-brand {
+	padding-top: 5px;
+}
+
+.navbar-brand h2 {
+	margin :0;
+	font-size: 1em !important;
+}
+
+.nav-img {
+	height: 40px;
+	width: 40px;
+	margin-top: 5px;
+}
+
+/*TODO*/
+.content_div {
+	padding-top: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 100%;
+	width: 100%;
+}
+
+.img_div{
+	height: 100%;
+	width: 45%;
+	display: inline-block;
+	margin-bottom: 20px;
+	background-color: #dee0e2;
+	overflow: hidden;
+	float: left;
+}
+
+.img_div img {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: auto;
+}
+
+/*.img_div{
+	height: 50%;
+	width: 100%;
+	display: block;
+	margin-bottom: 20px;
+	background-color: #dee0e2;
+	overflow: hidden;
+}
+
+.img_div img {
+	height: 50%;
+	width: auto;
+	display: block;
+	margin: auto;
+}*/
+
+.bid_div {
+	width: 20%;
+	float: left;
+	text-align: left;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.bid_div *{
+	margin-bottom: 2px;
+}
+
+#your_bid {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+#bid_input {
+	width: 40%;
+}
+
+#bid_button {
+	width: 60%;
+	height: 30px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 1em;
+	background-color: #0097a7;
+	color: #FFFFFF;
+	border-radius: 7px;
+}
+
+#for_input {
+	width: 80%;
+	border: 1px solid black;
+}
+
+.current_bid_view {
+	font-size: 1em;
+}
+
+.increment_view {
+	font-size: 1em;
+}
+
+#for_p {
+	font-size: 1em;
+}
+
+/*Info Styling*/
+.info_div {
+	float: left;
+	width: 50%;
+	margin-left: 10px;
+}
+
+.info_div *{
+	display: block;
+	text-align: left;
+	margin-bottom: 1px;
+}
+
+#title {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+#worth {
+	font-size: 1.5em;
+}
+
+#description {
+	font-size: 1em;
+	font-weight: normal;
+}

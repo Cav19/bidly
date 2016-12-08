@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="{% static '/CSS/navbar.css' %}"/>
 		<link rel="stylesheet" href="{% static '/CSS/style.css' %}"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" href="{% static '/CSS/item_page.css' %}"/>
+		<link rel="stylesheet" href="{% get_static_prefix %}{{css_file}}"/>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="{% static 'JS/item_page.js' %}"></script>
@@ -39,14 +39,16 @@
 				<img src="{% get_static_prefix %}{{image_path}}">
 			</div>
 
+			{% if mode == "mobile" %}
 			<div class="info_div">
 				<p id="title">{{name}}</p>
 				<p id="worth">Worth: ${{value}}</p>
 				<p id="description">{{description}}</p>
 			</div>
+			{% endif %}
 
 			<div class="bid_div">
-				<p id="your_bid">Your Bid: $ <input id="bid_input" type="number" value=400 /></p>
+				<p id="your_bid">Your Bid: $ <input id="bid_input" type="number" value=0 /></p>
 				<button id="bid_button">Place Bid</button>
 				{% if role == "admin" or role == "volunteer" %}
 				<p id="for_p">For: <input id="for_input" type="text" placeholder="user"/></p>
@@ -54,6 +56,14 @@
 				<p class="current_bid_view">Current Bid: $<span id="current_bid">{{current_bid}}</span></p>
 				<p class="increment_view">Increment: $<span id="increment">{{increment}}</span></p>
 			</div>
+
+			{% if mode == "desktop" %}
+			<div class="info_div">
+				<p id="title">{{name}}</p>
+				<p id="worth">Worth: ${{value}}</p>
+				<p id="description">{{description}}</p>
+			</div>
+			{% endif %}
 
 			<div class="recent_bids">
 			</div>
