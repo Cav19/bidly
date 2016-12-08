@@ -26,6 +26,8 @@ def home(request):
 	items_by_category = {}
 	for category in all_categories:
 		items = Item.objects.filter(category=category)
+		for item in sorted(items):
+			item.description = item.description[:80] + "..."
 		items_by_category[category] = items
 	popular_items = get_popular_items()
 	print("home: get_user(request)", get_user(request))

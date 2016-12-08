@@ -13,7 +13,7 @@ $(document).ready(function(){
   getItemBids();
 });
 
-function getItemBids(){
+ function getItemBids(){
 	var items = document.getElementsByClassName("item container");
 	for(i = 0; i < items.length; i++){
 		$.ajax({
