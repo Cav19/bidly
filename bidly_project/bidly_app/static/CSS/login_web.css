@@ -1,0 +1,64 @@
+/* Navbar modifications for web */
+.navbar{
+	height:1%;
+}
+
+.navbar-brand {
+	padding-top: 5px;
+	margin: auto;
+	width: 100%;
+}
+
+#name {
+	font-size: 2em;
+	margin: 0;
+}
+/* End navbar modifications for web*/
+
+.nav-tabs {
+	/*display: none;*/
+}
+
+.tab-content {
+	display: block;
+}
+
+.tab-pane {
+	padding: 10%;
+	float: left;
+}
+
+#register {
+	float: right;
+	visibility: visible;
+	margin-right: 10%;
+}
+
+#login input{
+	margin-top: 15%;
+	margin-left: 15%;
+	font-size: 20px;
+}
+
+#register input{
+	margin-top: 10%;
+	margin-left: 15%;
+	font-size: 20px;
+}
+
+.button{
+	margin-top: 13%;
+	margin-left: 40%;
+	font-size: 20px;	
+}
+
+.underline_input {
+	border: 0px solid transparent;
+	border-bottom: 2px solid #000000;
+	display: inline;
+}
+
+.phone_num {
+	width: 15%;
+	text-align: center;
+}

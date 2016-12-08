@@ -105,9 +105,13 @@ def get_top_bid(request):
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def register(request):
-	registered = False
-	c = {}
+	css_path = "CSS/login_web.css"
+	if is_request_mobile(request) == "mobile":
+		css_path = "CSS/login.css"
+	c = {'css_path': css_path}
 	c.update(csrf(request))
+
+	registered = False
 
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
@@ -147,7 +151,10 @@ def register(request):
 			RequestContext(request))
 
 def user_login(request):
-	c = {}
+	css_path="CSS/login_web.css"
+	if is_request_mobile(request) == "mobile":
+		css_path = "CSS/login.css"
+	c = {'css_path': css_path}
 	c.update(csrf(request))
 
 	if request.method == 'POST':

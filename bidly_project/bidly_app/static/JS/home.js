@@ -6,7 +6,7 @@ $(document).ready(function(){
     touchMove: true,
     slidesToShow: 3,
     centerPadding: '60px',
-    arrows: false,
+    arrows: true,
 
   });
 
