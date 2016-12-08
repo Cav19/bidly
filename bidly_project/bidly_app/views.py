@@ -18,8 +18,11 @@ import re
 
 #@login_required(login_url='/user_login/')
 def home(request):
-	css_path="CSS/home_admin.css"
-
+	mode = is_request_mobile(request)
+	if mode == "desktop":
+		css_path = "CSS/home_admin.css"
+	elif mode == "mobile":
+		css_path = "CSS/home.css"
 	all_items = Item.objects.all()
 	print(all_items)
 	all_categories = Category.objects.all()
