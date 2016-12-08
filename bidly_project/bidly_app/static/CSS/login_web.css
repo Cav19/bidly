@@ -15,36 +15,20 @@
 }
 /* End navbar modifications for web*/
 
-.nav-tabs {
-	/*display: none;*/
-}
-
-.tab-content {
-	display: block;
-}
-
-.tab-pane {
-	padding: 10%;
-	float: left;
-}
-
-#register {
-	float: right;
-	visibility: visible;
-	margin-right: 10%;
-}
-
-#login input{
+#login{
 	margin-top: 15%;
 	margin-left: 15%;
 	font-size: 20px;
+	float: left;
 }
 
-#register input{
-	margin-top: 10%;
-	margin-left: 15%;
+#register{
+	margin-top: 15%;
+	margin-right: 15%;
 	font-size: 20px;
+	float: right;
 }
+
 
 .button{
 	margin-top: 13%;

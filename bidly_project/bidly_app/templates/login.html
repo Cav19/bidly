@@ -5,9 +5,8 @@
 	{% load static %}
 		<title>Bidly</title>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<!-- <link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}"> -->
 		<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}"/>
-		<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}{{css_path}}">
+		 <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}{{css_path}}">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -24,6 +23,7 @@
 	</nav>
 
 <!-- Tabs -->
+	{% if mobile %}
 	<ul class="nav nav-tabs nav-justified" id="login-tabs">
 		<li class="active"> <a data-toggle="tab" href="#login"> Login </a></li>
 		<li> <a data-toggle="tab" href="#register"> Create Account </a></li>
@@ -32,6 +32,9 @@
 	<div class="tab-content">
 <!-- Log in tab -->
 		<div id="login" class="tab-pane fade in active">
+	{% else %}
+	<div id="login">
+	{% endif %}
 			<form id="login_form" method="post" action="/user_login/">
 				{% csrf_token %}
 				<input 
@@ -50,9 +53,14 @@
 				<br/><br/>
 				<input type="submit" name="submit" value="Log in"/>
 			</form>
+		{% if mobile %}
 		</div>
 <!-- Register tab -->
-		<div id="register" class="tab-pane fade">
+		<div class="tab-pane fade">
+		{% else %}
+		</div>
+		<div id="register">
+		{% endif %}
 			<form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
 				{% csrf_token %}
 				<input 
@@ -99,7 +107,11 @@
 				<br/><br/>
 				<input type="submit" name="submit" value="Register"/>
 			</form>
+		{% if mobile %}
 		</div>
 	</div>
+		{% else %}
+	</div>
+	{% endif %}
 </body>
 </html>	

@@ -106,9 +106,10 @@ def get_top_bid(request):
 
 def register(request):
 	css_path = "CSS/login_web.css"
+	mobile = False
 	if is_request_mobile(request) == "mobile":
 		css_path = "CSS/login.css"
-	c = {'css_path': css_path}
+	c = {'css_path': css_path, 'mobile': mobile}
 	c.update(csrf(request))
 
 	registered = False
@@ -152,9 +153,11 @@ def register(request):
 
 def user_login(request):
 	css_path="CSS/login_web.css"
+	mobile = False
 	if is_request_mobile(request) == "mobile":
 		css_path = "CSS/login.css"
-	c = {'css_path': css_path}
+		mobile = True
+	c = {'css_path': css_path, 'mobile': mobile}
 	c.update(csrf(request))
 
 	if request.method == 'POST':
