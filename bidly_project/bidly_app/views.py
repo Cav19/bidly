@@ -67,6 +67,7 @@ def profile(request):
 		'losing_bids' : losing_bids,
 		'css_path': css_path,
 		'mode': mode,
+		'group': groupName,
 	}
 	return render(request, 'profile.html', context)
 

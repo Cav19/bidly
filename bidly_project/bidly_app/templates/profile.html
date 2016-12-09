@@ -14,6 +14,7 @@
 		<script src="{% static 'JS/profile.js' %}" type="text/javascript"></script>
 	</head>
 <body>
+<!-- Navbar -->
 	<nav class="navbar">
 		<div class="container-fluid">
 	  		<div class="navbar-left">
@@ -36,11 +37,16 @@
 		</div>
 	</nav>
 
+<!-- Tabs -->
 	<ul class="nav nav-tabs nav-justified" id="main-tabs">
 		<li class="active"> <a data-toggle="tab" href="#my-bids"> My Bids </a></li>
 		<li> <a data-toggle="tab" href="#profile"> Profile </a></li>
+		{% if group == "admin" %}
+		<li> <a data-toggle="tab" href="#admin"> Admin </a></li>
+		<li> <a data-toggle="tab" href="#create-auction"> Create Auction </a></li>
+		{% endif %}
 	</ul>
-
+<!-- My Bids tab -->
 	<div class="tab-content">
 		<div id="my-bids" class="tab-pane fade in active">
 			{% if not mobile %}
@@ -96,6 +102,8 @@
 		</div>
 		{% endif %}
 		</div>
+
+<!-- Profile Tab -->
 		<div id="profile" class="tab-pane fade">
 			<input id="email" type="text" name="email" value="" class="underline_input" placeholder=""/>
 			<input id="phone_number" type="text" name="phone_number" value="" class="underline_input" placeholder=""/>
@@ -115,6 +123,23 @@
 			<button id="save" type="submit">Save Changes</button>
 			<button id="change-pw">Change Password</button>
 		</div>
+
+		{% if group == 'admin' %}
+<!-- Admin tab -->
+
+		<div class="tab-content">
+			<div id="admin" class="tab-pane fade">
+				test
+			</div>
+		</div>
+
+		<div class="tab-content">
+			<div id="create-auction" class="tab-pane fade">
+				
+			</div>
+		</div>
+		{% endif %}
+
 	</div>
 </body>
 </html>

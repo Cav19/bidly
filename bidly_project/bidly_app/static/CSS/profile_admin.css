@@ -55,14 +55,9 @@ body {
 	margin: 7% !important;
 }
 
-
 .item img {
 	width: 200px;
 	height: 200px;
-}
-
-.outline {
-	width: 200px;
 }
 
 .item-text {
@@ -74,15 +69,67 @@ body {
 	font-size: 15px;
 }
 
-#winning-bids{
-	margin-top: 100px;
+.outline {
+	width: 200px;
 }
 
 #profile{
-	font-size: 70px;
+	font-size: 15px;
 }
 
 #profile p{
 	margin-top: 10%;
 	margin-left: 10%;
+}
+
+.underline_input{
+	font-size: 15px;
+	border: 0px solid transparent;
+	border-bottom: 2px solid #000000;
+	display: block;
+	margin-left: 20%;
+	margin-top: 5%;
+}
+
+#winning-bids{
+	margin-top: 100px;
+}
+
+
+#save{
+	margin-top: 5%;
+	margin-left: 28%;
+}
+
+#change-pw{
+	margin-top: 5%;
+	margin-left: 22%;
+}
+
+.popup{
+	position: absolute;
+	top: 30%;
+	left: 15%;
+	width: 70%;
+}
+
+.popup .popuptext{
+	visibility: hidden;
+	background-color: #0097a7;
+	border-radius: 6px;
+	text-align: center;
+	font-size: 50px;
+}
+
+.popup .show{
+	visibility: visible;
+}
+
+#pw-form input{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.popuptext h2{
+	font-size: 70px;
 }
