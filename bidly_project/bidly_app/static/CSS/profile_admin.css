@@ -24,35 +24,15 @@
 }
 /* End navbar modifications for web*/
 
-body {
-	padding: 0;
+/*Tab section*/
+
+.nav-tabs > li > a{
+	font-size: 30px;
 }
 
-
+/* My Bids  --------------------*/
 .bid-section{
-	margin-top: 8%;
-	overflow: auto;
-	padding-top: 5%;
-	padding-bottom: 5%;
-	padding-left: 5%;
-	padding-right: 5%;
-	font-size: 60px;
-	clear: both;
-	background-color: black;
-}
-
-.bid-section p{
-	float: left;
-}
-
-.bid-section span{
-	float: right;
-}
-
-.item {
-	float: left;
-	/*margin-right: 10% !important;*/
-	margin: 7% !important;
+	font-size: 40px;
 }
 
 .item img {
@@ -69,17 +49,11 @@ body {
 	font-size: 15px;
 }
 
-.outline {
-	width: 200px;
-}
+
+/* Profile --------------------*/
 
 #profile{
 	font-size: 15px;
-}
-
-#profile p{
-	margin-top: 10%;
-	margin-left: 10%;
 }
 
 .underline_input{
@@ -91,45 +65,52 @@ body {
 	margin-top: 5%;
 }
 
-#winning-bids{
-	margin-top: 100px;
-}
-
-
-#save{
-	margin-top: 5%;
-	margin-left: 28%;
-}
-
-#change-pw{
-	margin-top: 5%;
-	margin-left: 22%;
-}
-
-.popup{
-	position: absolute;
-	top: 30%;
-	left: 15%;
-	width: 70%;
-}
 
 .popup .popuptext{
-	visibility: hidden;
-	background-color: #0097a7;
-	border-radius: 6px;
-	text-align: center;
-	font-size: 50px;
-}
-
-.popup .show{
-	visibility: visible;
-}
-
-#pw-form input{
-	margin-top: 2%;
-	margin-bottom: 2%;
+	font-size: 15px;
 }
 
 .popuptext h2{
-	font-size: 70px;
+	font-size: 20px;
+}
+
+/* admin --------------------*/
+.auction-name {
+	margin: 5%;
+}
+
+.btn {
+	white-space: normal;
+	padding: 0;
+}
+
+h4 {
+	margin-top:0;
+}
+
+.square-button {
+	background-color: #0097a7;
+	color: white;
+	width: 100px;
+	height: 100px;
+	margin-right: 7%;
+}
+
+.yellow-button {
+	background-color: #ffab40 !important;
+	color: black;
+	width: 100px;
+	height: 60px;
+	margin: 7%;
+	margin-left: 0;
+}
+
+#end-time {
+	float: left;
+	margin-left: 10px;
+	width: 30%;
+}
+
+#start-auction {
+	float: left;
 }

@@ -6,7 +6,7 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="{% static 'CSS/style.css' %}">
 		<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}">
-		<!-- <link href="{% static 'CSS/profile.css' %}" rel="stylesheet"> -->
+		<link href="{% static 'CSS/profile.css' %}" rel="stylesheet">
 		 <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}{{css_path}}">
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -120,24 +120,61 @@
 				</span>
 			</div>
 			<p>Password: *******</p>
-			<button id="save" type="submit">Save Changes</button>
-			<button id="change-pw">Change Password</button>
+			<button class="btn" id="save" type="submit">Save Changes</button>
+			<button class="btn" id="change-pw">Change Password</button>
 		</div>
 
 		{% if group == 'admin' %}
 <!-- Admin tab -->
-
-		<div class="tab-content">
-			<div id="admin" class="tab-pane fade">
-				test
+		<div id="admin" class="tab-pane fade">
+			<div class='auction-name'</div>
+				<h2>Auction Name: ______________</h2>
 			</div>
-		</div>
+			<div class="container">
+				<div class="row">
+			   		<div class="col-md-4 buttons">
+			   			<button type="button" class="btn square-button" id="start-auction">
+			   				<h4>Start Auction</h4>
+			   			</button>
+			   			<div id="end-time">
+			   				<h4>End Time:</h4>
+			   				<div class="container">
+					            <div class="form-group">
+					                <div class='input-group datetime' id='datetimepicker'>
+					                	<input id='time' name='time' type='time' class="form-control"/>
+					                    <input id='date' name='date' type='date' class="form-control" />
+							        </div>
+							    </div>
+							</div>
+			   			</div>
+			   			<div>
+				   			<button type="button" class="btn yellow-button" id="upload-items">
+				   				<h4>Upload Items</h4>
+				   			</button>
+				   			<button type="button" class="btn yellow-button" id="add-items">
+				   				<h4>Add Item</h4>
+				   			</button>
+				   		</div>
+				   		<div>
+				   			<button type="button" class="btn square-button" id="print-winners">
+				   				<h4>Print Winners</h4>
+				   			</button>
+				   			<button type="button" class="btn square-button" id="print-items">
+				   				<h4>Print Items</h4>
+				   			</button>
+				   		</div>
+			   		</div>
+			   		<div class="col-md-8 users">
+			   		</div>
+			  	</div>
+			</div>			
 
-		<div class="tab-content">
-			<div id="create-auction" class="tab-pane fade">
-				
-			</div>
 		</div>
+	
+		<div id="create-auction" class="tab-pane fade">
+			
+		</div>
+		
 		{% endif %}
 
 	</div>
