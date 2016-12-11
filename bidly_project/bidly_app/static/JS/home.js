@@ -7,7 +7,6 @@ $(document).ready(function(){
     slidesToShow: 3,
     centerPadding: '60px',
     arrows: true,
-
   });
 
   getItemBids();
@@ -18,12 +17,13 @@ $(document).ready(function(){
 });
 
  function getItemBids(){
-	var items = document.getElementsByClassName("item container");
+	var items = document.getElementsByClassName("item");
+	// TODO: Update this for loop to not get each of the items more than once if they're displayed more than once on the page. 
 	for(i = 0; i < items.length; i++){
 		$.ajax({
 			method: 'GET',
 			url: '/get_top_bid',
-			data: {'item_id' : items[i].id},
+			data: {'item_id' : items[i].id}, // TODO: Update this so we don't require an id on each HTML element as well as a class. 
 			dataType: 'json',
 			success: updateTopBid, 
 			error: handleError
@@ -33,10 +33,14 @@ $(document).ready(function(){
 
 var updateTopBid = function(data){
 	if(data.current_bid != null){
-		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
+		for(i = 0; i < $("." + data.item_id).length; i++){
+			$("." + data.item_id)[i].children[1].children[2].innerHTML = "Current Bid: $" + data.current_bid;
+		}
 	}
 	else{
-		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $0";
+		for(i = 0; i < $("." + data.item_id).length; i++){
+			$("." + data.item_id)[i].children[1].children[2].innerHTML = "Current Bid: $" + data.current_bid;
+		}
 	}
 };
 
