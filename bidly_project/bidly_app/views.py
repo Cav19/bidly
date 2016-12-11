@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.contrib.auth.models import Group
+from django.conf import settings as djangoSettings
+import base64
 import os
 import json
 import operator
@@ -312,3 +314,27 @@ def is_request_mobile(request):
 			return "mobile"
 
 	return "desktop"
+
+def image_test(request):
+	if request.method == "GET":
+		return render(request,"image_test.html")
+	else:
+		name = "AI Project"
+		auction = Auction.objects.get(pk=1)
+		startingPrice = 400
+		increment = 20
+		category = Category.objects.get(pk=1)
+		value = 600
+		description = "Mediocre AI capstone project..."
+
+		imageUrl = request.POST.get("image_url")
+		imgParts = imageUrl.split(",")
+		print(imgParts[0])
+		imgdata = base64.b64decode(imgParts[1])
+		file=open(djangoSettings.STATIC_ROOT+'img/test.png','wb+')
+		file.write(imgdata)
+		file.close()
+		return HttpResponse(json.dumps({"status" : 200}), content_type='application/json')
+
+
+
