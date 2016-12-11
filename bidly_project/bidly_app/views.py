@@ -315,6 +315,67 @@ def is_request_mobile(request):
 
 	return "desktop"
 
+def create_auction(request):
+	#Every request will have a start time, an end time, a url, and a list of items
+	if request.method == "POST":
+		url = request.POST.get("url")
+		newAuction = Auction(url=url)
+		newAuction.save()
+		#create folder to store item images
+		newDirectory = djangoSettings.STATIC_ROOT+"img/auction"+newAuction.pk+"/"
+		if not os.path.exists(newDirectory): #this could cause race condition, but shouldn't because all directory names are distinct, and only created when an auction is created
+			os.mkdirs(newDirectory)
+		else:
+			print("Error: " + newDirectory + " is already a directory.")
+
+		items = request.POST.get("items") #a list of objects
+		create_items_for_auction(items,newAuction,imgDirectory)
+
+		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
+		return HttpResponse(json.dumps(response), content_type='application/json')
+
+def create_items_for_auction(items,auction,imgDirectory):
+	for item in items:
+		startingPrice = item["starting_price"]
+		increment = item["increment"]
+		name = item["name"]
+		categoryName = item["category"]
+		category = get_category_by_name(categoryName)
+		value = item["value"]
+		description = item["description"]
+
+		itemObj = Item(auction=auction, starting_price=startingPrice, increment=increment, name=name, category=category, value=value, description=description)#leaves image_path null
+
+		itemId = itemObj.pk
+		imageUrl = item["image_url"]
+		convertedImg = convert_b64_to_img(imageUrl)
+
+		#save image in static directory
+		#The next two statements find the image type
+		imageType = imageUrl.split(";")[0]
+		imageType = imageType.split("/")[1]
+		imgPath = imgDirectory+str(itemId)+"."+imageType
+		file = open(imgPath,"wb+")
+		file.write(convertedImg)
+		file.close()
+		itemObj.image_path = imgPath
+		itemObj.save()
+
+
+def get_category_by_name(categoryName):
+	categoryName = categoryName.lower()
+	category = Category.objects.get(category_name=categoryName)
+	if category == None:
+		category = Category(category_name=categoryName)
+		category.save()
+
+	return category
+
+def convert_b64_to_img(imageUrl):
+	imgParts = imageUrl.split(",")
+	imgdata = base64.b64decode(imgParts[1])
+	return imgdata
+
 def image_test(request):
 	if request.method == "GET":
 		return render(request,"image_test.html")
