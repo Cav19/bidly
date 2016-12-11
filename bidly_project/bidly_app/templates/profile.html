@@ -181,9 +181,48 @@
 		</div>
 	
 		<div id="create-auction" class="tab-pane fade">
-			
+			<div class='auction-name'</div>
+				<h2>Auction Name: ______________</h2>
+			</div>
+			<div class="container">
+				<div class="row">
+			   		<div class="col-md-4 buttons">
+			   			<button type="button" class="btn square-button" id="start-auction">
+			   				<h4>Start Auction</h4>
+			   			</button>
+			   			<div id="end-time">
+			   				<h4>End Time:</h4>
+			   				<div class="container">
+					            <div class="form-group">
+					                <div class='input-group datetime' id='datetimepicker'>
+					                	<input id='time' name='time' type='time' class="form-control " /><br><br>
+					                    <input id='date' name='date' type='date' class="form-control"  />
+							        </div>
+							    </div>
+							</div>
+			   			</div>
+			   			<div>
+				   			<button type="button" class="btn yellow-button" id="upload-items">
+				   				<h4>Upload Items</h4>
+				   			</button>
+				   			<button type="button" class="btn yellow-button" id="add-items">
+				   				<h4>Add Item</h4>
+				   			</button>
+				   		</div>
+				   	</div>
+			   		<div class="col-md-8 users">
+			   			<div class="container" id="volunteers">
+			   				<h1>Volunteers</h1>
+			   				<button class='btn btn-plus'>+</button>
+			   			</div>
+			   			<div class="container" id="bidders">
+			   				<h1>Bidders</h1>
+			   				<button class='btn btn-plus'>+</button>
+			   			</div>
+			   		</div>
+				</div>
+			</div>
 		</div>
-		
 		{% endif %}
 
 	</div>
