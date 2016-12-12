@@ -99,7 +99,10 @@ function getItemBids(){
 			error: handleError
 		});
 	}
-}
+};
+
+var input_file = document.querySelector("#upload-items");
+// TODO: Add onchange...
 
 var updateTopBid = function(data){
 	if(data.current_bid != null){

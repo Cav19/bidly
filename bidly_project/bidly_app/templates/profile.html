@@ -129,7 +129,7 @@
 <!-- Admin tab -->
 		<div id="admin" class="tab-pane fade">
 			<div class='auction-name'</div>
-				<h2>Auction Name: ______________</h2>
+				<h2>Auction Name: {{auction_name}}</h2>
 			</div>
 			<div class="container">
 				<div class="row">
@@ -149,8 +149,9 @@
 							</div>
 			   			</div>
 			   			<div>
-				   			<button type="button" class="btn yellow-button" id="upload-items">
+				   			<button type="button" class="btn yellow-button upload-items" >
 				   				<h4>Upload Items</h4>
+				   				<input type="file" id="file" />
 				   			</button>
 				   			<button type="button" class="btn yellow-button" id="add-items">
 				   				<h4>Add Item</h4>
@@ -187,28 +188,18 @@
 			<div class="container">
 				<div class="row">
 			   		<div class="col-md-4 buttons">
-			   			<button type="button" class="btn square-button" id="start-auction">
-			   				<h4>Start Auction</h4>
-			   			</button>
-			   			<div id="end-time">
-			   				<h4>End Time:</h4>
-			   				<div class="container">
-					            <div class="form-group">
-					                <div class='input-group datetime' id='datetimepicker'>
-					                	<input id='time' name='time' type='time' class="form-control " /><br><br>
-					                    <input id='date' name='date' type='date' class="form-control"  />
-							        </div>
-							    </div>
-							</div>
-			   			</div>
 			   			<div>
-				   			<button type="button" class="btn yellow-button" id="upload-items">
+				   			<button type="button" class="btn yellow-button upload-items" id="upload-items">
 				   				<h4>Upload Items</h4>
+				   				<input type="file" id="file" />
 				   			</button>
 				   			<button type="button" class="btn yellow-button" id="add-items">
 				   				<h4>Add Item</h4>
 				   			</button>
 				   		</div>
+				   		<button type="button" class="btn square-button" id="save-auction">
+			   				<h4>Save Auction</h4>
+			   			</button>
 				   	</div>
 			   		<div class="col-md-8 users">
 			   			<div class="container" id="volunteers">

@@ -133,6 +133,33 @@ h4 {
 	float: left;
 }
 
+#save-auction {
+	width: 220px;
+}
+
 .container h1 {
 	float: left;
+}
+
+.upload-items {
+	position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+#fileElem {
+	visibility: hidden ;
+}
+
+#file{
+	/*From http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/*/
+	position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
