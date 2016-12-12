@@ -5,8 +5,8 @@ from django.contrib.auth.models import User, Group
 # Create your models here.
 
 class Auction(models.Model):
-	start_time = models.DateTimeField(auto_now_add=True)
-	end_time = models.DateTimeField(auto_now_add=True)
+	start_time = models.DateTimeField()
+	end_time = models.DateTimeField()
 	url = models.CharField(max_length=50)
 
 class Bidly_User(models.Model):

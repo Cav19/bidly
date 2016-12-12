@@ -15,6 +15,7 @@ import os
 import json
 import operator
 import re
+import datetime
 
 # Create your views here.
 
@@ -376,6 +377,40 @@ def convert_b64_to_img(imageUrl):
 	imgdata = base64.b64decode(imgParts[1])
 	return imgdata
 
+def begin_auction(request):
+	auctionId = request.POST.get("auction_id")
+	auction = Auction.objects.get(pk=auctionId)
+	
+	endTimeString = request.POST.get("end_time")
+	dateTimeParts = endTimeString.split(" ")
+	dateString = dateTimeParts[0]
+	timeString = dateTimeParts[1]
+
+	dateParts = dateString.split("/")
+	month = int(dateParts[0])
+	day = int(dateParts[1])
+	year = int(dateParts[2])
+
+	timeParts = timeString.split(":")
+	hour = int(timeParts[0])
+	minute = int(timeParts[1])
+
+	endTime = datetime.datetime
+	endTime.month = month
+	endTime.day = day
+	endTime.year = year
+	endTime.hour = hour
+	endTime.minute = minute
+
+	if endTime < datetime.now():
+		response = {"status":400, "error_message":"start_time is after end_time"}
+		return HttpResponse(json.dumps(response), content_type='application/json')
+
+	auction.start_time = datetime.now()
+	auction.end_time = endTime
+	response = {"status":200, "auction_id":auctionId, "auction_url":auction.url}
+	return HttpResponse(json.dumps(response), content_type='application/json')
+
 def image_test(request):
 	if request.method == "GET":
 		return render(request,"image_test.html")
@@ -396,6 +431,3 @@ def image_test(request):
 		file.write(imgdata)
 		file.close()
 		return HttpResponse(json.dumps({"status" : 200}), content_type='application/json')
-
-
-
