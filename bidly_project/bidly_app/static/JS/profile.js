@@ -139,7 +139,7 @@ function readURL(input) {
 }
 
 function readCSV(){
-	var rows = fileText.split("\n\r");
+	var rows = fileText.split("\r\n");
 	var headers = rows[0].split("\t");
 	var allItems = [];
 	for(i = 1; i < rows.length; i++){
@@ -151,8 +151,10 @@ function readCSV(){
 		for(j = 0; j < row.length; j++){
 			item[headers[j].toString()] = row[j].toString();
 		}
+		console.log(item);
 		allItems.push(item);
 	}
+	console.log(allItems)
 	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : allItems};
 	data["items"] = JSON.stringify(data["items"]);
 	$.ajax({
