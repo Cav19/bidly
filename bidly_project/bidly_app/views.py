@@ -317,26 +317,28 @@ def is_request_mobile(request):
 	return "desktop"
 
 def create_auction(request):
-	#Every request will have a start time, an end time, a url, and a list of items
 	if request.method == "POST":
 		url = request.POST.get("url")
 		newAuction = Auction(url=url)
 		newAuction.save()
 		#create folder to store item images
-		newDirectory = djangoSettings.STATIC_ROOT+"img/auction"+newAuction.pk+"/"
+		newDirectory = djangoSettings.STATIC_ROOT+"img/auction"+str(newAuction.pk)+"/"
 		if not os.path.exists(newDirectory): #this could cause race condition, but shouldn't because all directory names are distinct, and only created when an auction is created
-			os.mkdirs(newDirectory)
+			os.mkdir(newDirectory)
 		else:
 			print("Error: " + newDirectory + " is already a directory.")
 
-		items = request.POST.get("items") #a list of objects
-		create_items_for_auction(items,newAuction,imgDirectory)
+		# items = request.POST.getlist("items[]") #a list of objects
+		items = json.loads(request.POST.get('items'))  # I hate this as much as you do
+		create_items_for_auction(items,newAuction,newDirectory)
 
 		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
 def create_items_for_auction(items,auction,imgDirectory):
+	print(items)
 	for item in items:
+		print(item.keys())
 		startingPrice = item["starting_price"]
 		increment = item["increment"]
 		name = item["name"]
@@ -346,6 +348,7 @@ def create_items_for_auction(items,auction,imgDirectory):
 		description = item["description"]
 
 		itemObj = Item(auction=auction, starting_price=startingPrice, increment=increment, name=name, category=category, value=value, description=description)#leaves image_path null
+		itemObj.save()
 
 		itemId = itemObj.pk
 		imageUrl = item["image_url"]
@@ -356,6 +359,7 @@ def create_items_for_auction(items,auction,imgDirectory):
 		imageType = imageUrl.split(";")[0]
 		imageType = imageType.split("/")[1]
 		imgPath = imgDirectory+str(itemId)+"."+imageType
+		print("imgPath: " + imgPath)
 		file = open(imgPath,"wb+")
 		file.write(convertedImg)
 		file.close()
@@ -365,11 +369,14 @@ def create_items_for_auction(items,auction,imgDirectory):
 
 def get_category_by_name(categoryName):
 	categoryName = categoryName.lower()
-	category = Category.objects.get(category_name=categoryName)
-	if category == None:
+	categories = Category.objects.filter(category_name=categoryName)
+	if len(categories) == 0:
 		category = Category(category_name=categoryName)
 		category.save()
+	else:
+		category = categories[0]
 
+	print(category)
 	return category
 
 def convert_b64_to_img(imageUrl):
