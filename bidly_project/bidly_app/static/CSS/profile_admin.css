@@ -151,7 +151,7 @@ h4 {
 	visibility: hidden ;
 }
 
-#file{
+.upload-items input{
 	/*From http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/*/
 	position: absolute;
     top: 0;
@@ -161,5 +161,6 @@ h4 {
     font-size: 20px;
     cursor: pointer;
     opacity: 0;
+ 	height: 60px;
     filter: alpha(opacity=0);
 }

@@ -50,7 +50,12 @@ $(document).ready(function(){
 
 	$(".item").click(function(){
   		window.location.href = "/item_page/?item_id=" + this.id;
-  });
+	});
+
+	$("#file").change(function(){
+    	readURL(this);
+});
+
 });
 
 function onLoad(){
@@ -63,7 +68,8 @@ function onLoad(){
 		error: handleError
 	});
 	getItemBids();
-}
+};
+
 
 var updateProfileInfo = function(data){
 	if(data.status == 200){
@@ -101,9 +107,6 @@ function getItemBids(){
 	}
 };
 
-var input_file = document.querySelector("#upload-items");
-// TODO: Add onchange...
-
 var updateTopBid = function(data){
 	if(data.current_bid != null){
 		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
@@ -112,3 +115,17 @@ var updateTopBid = function(data){
 		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $0";
 	}
 };
+
+function readURL(input) {
+	// Source: http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            console.log(e.target.result);
+            var text = e.target.result;
+        }
+
+        reader.readAsText(input.files[0]);
+    }
+}
