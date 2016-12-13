@@ -151,15 +151,6 @@ function readCSV(){
 		}
 		item = {};
 		for(j = 0; j < row.length; j++){
-			// //find the image hosted on the local machine
-			// if (headers[j].toString() == "image_url") {
-			// 	var reader = new FileReader();
-			// 	var imgPath = row[j].toString();
-			// 	console.log(imgPath);
-			// 	var imgFile = new File([""], imgPath);
-			// 	reader.readAsDataURL(imgFile);
-			// 	item[headers[j].toString()] = reader.result;
-			// }
 			item[headers[j].toString()] = row[j].toString();
 		}
 		console.log(item);
