@@ -117,7 +117,7 @@ h4 {
 	color: white;
 	width: 100px;
 	height: 100px;
-	margin-right: 7%;
+	margin-right: 10px;
 }
 
 .yellow-button {
@@ -126,7 +126,7 @@ h4 {
 	width: 100px;
 	height: 60px;
 	margin: 4%;
-	margin-left: 0;
+	margin-left: 0 !important;
 }
 
 .btn-plus {
