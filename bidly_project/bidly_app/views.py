@@ -351,9 +351,7 @@ def create_auction(request):
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
 def create_items_for_auction(items,auction,imgDirectory):
-	print(items)
 	for item in items:
-		print(item.keys())
 		startingPrice = item["starting_price"]
 		increment = item["increment"]
 		name = item["name"]
@@ -378,7 +376,8 @@ def create_items_for_auction(items,auction,imgDirectory):
 		file = open(imgPath,"wb+")
 		file.write(convertedImg)
 		file.close()
-		itemObj.image_path = imgPath
+		relativePath = imgPath.split("static/")[1]#assumes static/ occurs once in path
+		itemObj.image_path = relativePath
 		itemObj.save()
 
 
@@ -391,7 +390,6 @@ def get_category_by_name(categoryName):
 	else:
 		category = categories[0]
 
-	print(category)
 	return category
 
 def convert_b64_to_img(imageUrl):
@@ -435,6 +433,9 @@ def begin_auction(request):
 
 def image_test(request):
 	if request.method == "GET":
+		items = Item.objects.all()
+		for item in items:
+			print(str(item.pk)+"\t"+item.name + "\t" + str(item.auction.pk) +"\t" + str(item.category))
 		return render(request,"image_test.html")
 	else:
 		name = "AI Project"

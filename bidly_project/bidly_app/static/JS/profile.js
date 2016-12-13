@@ -129,7 +129,9 @@ function readURL(input) {
 	// Source: http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
+        console.log(input.files[0]);
+        console.log(input.files[0].name);
+        console.log(input.files[0].webkitRelativePath);
         reader.readAsText(input.files[0]);
 
         reader.onload = function (e) {
@@ -149,13 +151,77 @@ function readCSV(){
 		}
 		item = {};
 		for(j = 0; j < row.length; j++){
+			// //find the image hosted on the local machine
+			// if (headers[j].toString() == "image_url") {
+			// 	var reader = new FileReader();
+			// 	var imgPath = row[j].toString();
+			// 	console.log(imgPath);
+			// 	var imgFile = new File([""], imgPath);
+			// 	reader.readAsDataURL(imgFile);
+			// 	item[headers[j].toString()] = reader.result;
+			// }
 			item[headers[j].toString()] = row[j].toString();
 		}
 		console.log(item);
+
 		allItems.push(item);
 	}
-	console.log(allItems)
-	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : allItems};
+	parse_img_files(allItems,0);
+}
+
+var parse_img_files = function(items,itemIndex){
+	if (itemIndex == items.length) {
+		create_auction(items);
+		return;
+	}
+	var reader = new FileReader();
+	item = items[itemIndex];
+	var imgName = item["image_url"];
+	var imgFile = imgFilesMap[imgName];
+	reader.addEventListener("loadend", function(){
+		item["image_url"] = reader.result;
+		parse_img_files(items,itemIndex+1);
+	});
+	reader.readAsDataURL(imgFile);
+}
+
+var imgFilesMap = {};
+function uploadImages(){
+	var files  = $("#imgUpload")[0].files;
+	for (var i = 0; i < files.length; i++) {
+		var file = files[i];
+		imgFilesMap[file.name] = file;
+	}
+	console.log(imgFilesMap);
+}
+
+// var parse_img_files = function(items){
+// 	for (var i = 0; i < items.length; i++) {
+// 		item = items[i];
+// 		parse_file_for_item(item,items.length,items);
+// 	}
+// }
+
+// var numFinishedLoads = 0;
+// var parse_file_for_item = function(item, numItems, items){
+// 	var reader = new FileReader();
+// 		var imgPath = item["image_url"];
+// 		var imgFile = new File([""], imgPath);
+// 		reader.addEventListener("load", function(){
+// 			console.log("In Event Listener");
+// 			item["image_url"] = reader.result;
+// 			console.log(reader.result);
+// 			numFinishedLoads++;
+// 			if (numFinishedLoads == numItems) {
+// 				create_auction(items);
+// 			}
+// 		});
+// 		reader.readAsDataURL(imgFile);
+// }
+
+var create_auction = function(items){
+	console.log(JSON.stringify(items));
+	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : items};
 	data["items"] = JSON.stringify(data["items"]);
 	$.ajax({
 		method: 'POST',

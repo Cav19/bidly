@@ -7,6 +7,8 @@ $(document).ready(function(){
 function previewFile() {
   var preview = document.querySelector('img');
   var file    = document.querySelector('input[type=file]').files[0];
+  console.log(file);
+  console.log(type(file))
   var reader  = new FileReader();
 
   reader.addEventListener("load", function () {
@@ -28,6 +30,16 @@ function previewFile() {
 					"starting_price" : 30,
 					"increment" : 5,
 					"name" : "Bomb Defusal Manual",
+					"category" : "Bomb Defusing",
+					"value" : 70,
+					"image_url" : image_url
+				},
+
+				{
+					"description" : "Useful for defusing bombs faster",
+					"starting_price" : 30,
+					"increment" : 5,
+					"name" : "Bomb Defusal Manual 2nd edition",
 					"category" : "Bomb Defusing",
 					"value" : 70,
 					"image_url" : image_url
