@@ -177,8 +177,6 @@ function readTSV(){
 		for(j = 0; j < row.length; j++){
 			item[headers[j].toString()] = row[j].toString();
 		}
-		console.log(item);
-
 		allItems.push(item);
 	}
 	parse_img_files(allItems,0);
@@ -214,7 +212,6 @@ function uploadImages(){
 		var file = files[i];
 		imgFilesMap[file.name] = file;
 	}
-	console.log(imgFilesMap);
 }
 
 $("#upload-images").click(function(){
@@ -225,8 +222,12 @@ $("#upload-images").click(function(){
 	Ajax POST request to create a new auction. 
 */
 var create_auction = function(items){
-	console.log(JSON.stringify(items));
-	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : items};
+	var url = $("#auction-name-input").val();
+	if (url == null) {
+		alert("You must name your auction");
+		return;
+	}
+	var data = {"url" : url, "start_time" : "", "end_time" : "", "items" : items};
 	data["items"] = JSON.stringify(data["items"]);
 	$.ajax({
 		method: 'POST',
@@ -240,6 +241,7 @@ var create_auction = function(items){
 
 var auctionCreated = function(data){
 	console.log("Auction created!");
+	console.log(JSON.stringify(data));
 }
 
 function getCookie(name) {    

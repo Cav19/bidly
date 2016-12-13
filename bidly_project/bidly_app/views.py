@@ -16,6 +16,7 @@ import json
 import operator
 import re
 import datetime
+import random
 
 # Create your views here.
 
@@ -31,7 +32,7 @@ def home(request):
 	items_by_category = {}
 	for category in all_categories:
 		items = Item.objects.filter(category=category)
-		for item in sorted(items):
+		for item in items:
 			item.description = item.description[:80] + "..."
 		items_by_category[category] = items
 	popular_items = get_popular_items()
@@ -334,6 +335,7 @@ def is_request_mobile(request):
 def create_auction(request):
 	if request.method == "POST":
 		url = request.POST.get("url")
+		url = validate_url(url)
 		newAuction = Auction(url=url)
 		newAuction.save()
 		#create folder to store item images
@@ -344,12 +346,29 @@ def create_auction(request):
 			print("Error: " + newDirectory + " is already a directory.")
 
 		# items = request.POST.getlist("items[]") #a list of objects
+		print("Items: " + request.POST.get('items'))
 		items = json.loads(request.POST.get('items'))  # I hate this as much as you do
 		create_items_for_auction(items,newAuction,newDirectory)
 
 		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
+def validate_url(url):
+	#preprocess url
+	url = url.replace(" ", "_")
+	auctionsWithUrl = Auction.objects.filter(url=url)
+	newUrl = url
+	#if the url is taken, append new 4 digit strings to the end until we reach a unique url
+	while auctionsWithUrl.count() > 0:
+		newUrl = url
+		for i in range(4):
+			randomDigit = random.randint(0,9)
+			newUrl += str(randomDigit)
+		
+		auctionsWithUrl = Auction.objects.filter(url=newUrl)
+
+	return newUrl
+		
 def create_items_for_auction(items,auction,imgDirectory):
 	for item in items:
 		startingPrice = item["starting_price"]
@@ -433,6 +452,8 @@ def begin_auction(request):
 
 def image_test(request):
 	if request.method == "GET":
+		auction = Auction.objects.get(pk=2)
+		auction.delete()
 		items = Item.objects.all()
 		for item in items:
 			print(str(item.pk)+"\t"+item.name + "\t" + str(item.auction.pk) +"\t" + str(item.category))
