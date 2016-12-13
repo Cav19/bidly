@@ -3,7 +3,12 @@ $(document).ready(function(){
 	onLoad();
 
 	var winChevronPosition = "left";
-	var loseChevronPosition = "left"
+	var loseChevronPosition = "left";
+	var fileText = "";
+
+	$.ajaxSetup({
+	    headers: { "X-CSRFToken": getCookie("csrftoken") }    
+	});
 
 	$("#win-chevron").click(function(){
 		if(winChevronPosition === "left"){
@@ -52,9 +57,13 @@ $(document).ready(function(){
   		window.location.href = "/item_page/?item_id=" + this.id;
 	});
 
+	$("#save-auction").click(function(){
+		readCSV();
+	});
+
 	$("#file").change(function(){
     	readURL(this);
-});
+	});
 
 });
 
@@ -121,11 +130,58 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function (e) {
-            console.log(e.target.result);
-            var text = e.target.result;
-        }
-
         reader.readAsText(input.files[0]);
+
+        reader.onload = function (e) {
+            fileText = e.target.result;
+        }
     }
+}
+
+function readCSV(){
+	var rows = fileText.split("\r\n");
+	var headers = rows[0].split("\t");
+	var allItems = [];
+	for(i = 1; i < rows.length; i++){
+		row = rows[i].split("\t");
+		if(row[0] === ""){	// Not sure why but I was getting a row with a singular empty element at the end. Can look into it later but this works for now. 
+			break;
+		}
+		item = {};
+		for(j = 0; j < row.length; j++){
+			item[headers[j].toString()] = row[j].toString();
+		}
+		console.log(item);
+		allItems.push(item);
+	}
+	console.log(allItems)
+	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : allItems};
+	data["items"] = JSON.stringify(data["items"]);
+	$.ajax({
+		method: 'POST',
+		url: '/create_auction/',
+		data: data,
+		dataType: 'json',
+		success: auctionCreated,
+		error: handleError
+	});
+}
+
+var auctionCreated = function(data){
+	console.log("Auction created!");
+}
+
+function getCookie(name) {    
+	var cookieValue = null;    
+	if (document.cookie && document.cookie !== '') {        
+		var cookies = document.cookie.split(';');        
+		for (var i = 0; i < cookies.length; i++) {            
+			var cookie = jQuery.trim(cookies[i]);            // Does this cookie string begin with the name we want?            
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {                
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));                
+				break;            
+			}        
+		}    
+	}    
+	return cookieValue;
 }

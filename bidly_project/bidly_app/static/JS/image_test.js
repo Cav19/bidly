@@ -11,15 +11,38 @@ function previewFile() {
 
   reader.addEventListener("load", function () {
     preview.src = reader.result;
-    console.log(reader.result);
+    // console.log(reader.result);
+    // $.ajax({
+    // 	method: "POST",
+    // 	data: {"image_url": reader.result},
+    // 	url: "/image_test/",
+    // 	dataType: "json",
+    // 	success: handleSuccess,
+    // 	error: handleError
+    // });
+    image_url = reader.result;
+    data = {"url" : "/test_auction_url/",
+			"items" : [
+				{
+					"description" : "Useful for defusing bombs",
+					"starting_price" : 30,
+					"increment" : 5,
+					"name" : "Bomb Defusal Manual",
+					"category" : "Bomb Defusing",
+					"value" : 70,
+					"image_url" : image_url
+				}
+			]};
+	data["items"] = JSON.stringify(data["items"]);
+	console.log(data);
     $.ajax({
     	method: "POST",
-    	data: {"image_url": reader.result},
-    	url: "/image_test/",
+    	data: data,
+    	url: "/create_auction/",
     	dataType: "json",
     	success: handleSuccess,
     	error: handleError
-    });
+    })
   }, false);
 
   if (file) {
