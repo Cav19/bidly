@@ -95,6 +95,19 @@
 	padding: 0;
 }
 
+.btn-profile {
+	background-color: #0097a7;
+	color: white;
+	width: 150px;
+	height: 50px;
+	margin-left: 10% !important;
+	margin-top: 5% !important;
+}
+
+p {
+	margin-top: 5% !important;
+}
+
 h4 {
 	margin-top:0;
 }
