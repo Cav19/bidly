@@ -195,29 +195,9 @@ function uploadImages(){
 	console.log(imgFilesMap);
 }
 
-// var parse_img_files = function(items){
-// 	for (var i = 0; i < items.length; i++) {
-// 		item = items[i];
-// 		parse_file_for_item(item,items.length,items);
-// 	}
-// }
-
-// var numFinishedLoads = 0;
-// var parse_file_for_item = function(item, numItems, items){
-// 	var reader = new FileReader();
-// 		var imgPath = item["image_url"];
-// 		var imgFile = new File([""], imgPath);
-// 		reader.addEventListener("load", function(){
-// 			console.log("In Event Listener");
-// 			item["image_url"] = reader.result;
-// 			console.log(reader.result);
-// 			numFinishedLoads++;
-// 			if (numFinishedLoads == numItems) {
-// 				create_auction(items);
-// 			}
-// 		});
-// 		reader.readAsDataURL(imgFile);
-// }
+$("#upload-images").click(function(){
+	$("#imgUpload").click();
+})
 
 var create_auction = function(items){
 	console.log(JSON.stringify(items));

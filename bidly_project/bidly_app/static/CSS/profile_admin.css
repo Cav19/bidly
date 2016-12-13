@@ -101,7 +101,7 @@ h4 {
 	color: black;
 	width: 100px;
 	height: 60px;
-	margin: 7%;
+	margin: 4%;
 	margin-left: 0;
 }
 
@@ -158,6 +158,28 @@ h4 {
     right: 0;
     margin: 0;
     padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+ 	height: 60px;
+    filter: alpha(opacity=0);
+}
+
+#upload-images {
+	width: 220px;
+	margin-top:0px;
+	margin-bottom: 4%;
+}
+
+#upload-images input { 
+	/*From http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/*/
+	position: absolute;
+    top: 90px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 220px;
+    height: 60px;
     font-size: 20px;
     cursor: pointer;
     opacity: 0;
