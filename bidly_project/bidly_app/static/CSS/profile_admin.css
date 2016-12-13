@@ -43,6 +43,7 @@
 .item-text {
 	font-size: 15px;
 	margin-bottom: 20px;
+	width: 200px;
 }
 
 .item-text h4{
