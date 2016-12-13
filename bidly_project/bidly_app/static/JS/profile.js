@@ -10,6 +10,9 @@ $(document).ready(function(){
 	    headers: { "X-CSRFToken": getCookie("csrftoken") }    
 	});
 
+	/*
+		These two functions handle clicking on the chevrons on the profile page. 
+	*/
 	$("#win-chevron").click(function(){
 		if(winChevronPosition === "left"){
 			this.className = "glyphicon glyphicon-chevron-down";
@@ -32,11 +35,17 @@ $(document).ready(function(){
 		}
 	});
 
+	/*
+		Displays change password popup on profile page. 
+	*/
 	$("#change-pw").click(function(){
 		var popup = document.getElementById("pwpopup");
 		popup.classList.toggle("show");
 	});
 
+	/*
+		Saves data about the user to the database through Ajax POST request. 
+	*/
 	$("#save").click(function(){
 		$.ajax({
 			method: 'POST', 
@@ -45,7 +54,7 @@ $(document).ready(function(){
 				'email': document.getElementById("email").value,
 				'phone_number': document.getElementById("phone_number").value,
 				'username': document.getElementById("username").value,
-				'userId' : 1 
+				'userId' : 1  // TODO: Change this to get actual userID
 			},
 			dataType: 'json',
 			success: saveSuccess,
@@ -53,12 +62,15 @@ $(document).ready(function(){
 		});
 	});
 
+	/*
+		Redirects to item page when item is clicked on. 
+	*/
 	$(".item").click(function(){
   		window.location.href = "/item_page/?item_id=" + this.id;
 	});
-
+	
 	$("#save-auction").click(function(){
-		readCSV();
+		readTSV();
 	});
 
 	$("#file").change(function(){
@@ -102,6 +114,9 @@ var saveSuccess = function(data){
 	}
 };
 
+/*
+	Ajax GET request to get the top bid of each item in the current auction. 
+*/
 function getItemBids(){
 	var items = document.getElementsByClassName("item container");
 	for(i = 0; i < items.length; i++){
@@ -116,6 +131,9 @@ function getItemBids(){
 	}
 };
 
+/*
+	Updates the bid of an item in the HTML page. 
+*/
 var updateTopBid = function(data){
 	if(data.current_bid != null){
 		$("#" + data.item_id).children().children()[2].innerHTML = "Current Bid: $" + data.current_bid;
@@ -125,6 +143,9 @@ var updateTopBid = function(data){
 	}
 };
 
+/*
+	Reads URL from input file. 
+*/
 function readURL(input) {
 	// Source: http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
     if (input.files && input.files[0]) {
@@ -140,7 +161,10 @@ function readURL(input) {
     }
 }
 
-function readCSV(){
+/*
+	Function reads in an uploaded TSV file and breaks it down into a set of items to be uploaded to the database.
+*/
+function readTSV(){
 	var rows = fileText.split("\r\n");
 	var headers = rows[0].split("\t");
 	var allItems = [];
@@ -160,6 +184,9 @@ function readCSV(){
 	parse_img_files(allItems,0);
 }
 
+/*
+	Parses image files in order to get a URL with which to store the image into the database. 
+*/
 var parse_img_files = function(items,itemIndex){
 	if (itemIndex == items.length) {
 		create_auction(items);
@@ -177,6 +204,10 @@ var parse_img_files = function(items,itemIndex){
 }
 
 var imgFilesMap = {};
+
+/*
+	Places images into a map to be passed to the backend. 
+*/
 function uploadImages(){
 	var files  = $("#imgUpload")[0].files;
 	for (var i = 0; i < files.length; i++) {
@@ -190,6 +221,9 @@ $("#upload-images").click(function(){
 	$("#imgUpload").click();
 })
 
+/*
+	Ajax POST request to create a new auction. 
+*/
 var create_auction = function(items){
 	console.log(JSON.stringify(items));
 	var data = {"url" : "/test/", "start_time" : "", "end_time" : "", "items" : items};
