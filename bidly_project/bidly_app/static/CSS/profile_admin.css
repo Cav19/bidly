@@ -179,6 +179,10 @@ h4 {
 	visibility: hidden ;
 }
 
+.item-buttons {
+	clear: both;
+}
+
 .upload-items input{
 	/*From http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/*/
 	position: absolute;
