@@ -32,7 +32,7 @@ body {
 .search-bar {
 	color: #a3a3a3;
 	font-size: 30px;
-	height: 70px;
+	height: 40px;
 	margin: auto ;
 	margin-top: 0;
 	width: 30%;
@@ -40,6 +40,11 @@ body {
 
 .search-bar input {
 	height: 40px;
+}
+
+.search-bar button {
+	height: 40px;
+	font-size: 20px;
 }
 
 /************	Carousel	*********/

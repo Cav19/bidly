@@ -129,6 +129,21 @@ def get_top_bid(request):
 	response = {'status' : 200, 'current_bid' : topBid, 'item_id' : request.GET.get('item_id')}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
+def search(request):
+	search_term = request.GET.get('search_term')
+	all_items = Item.objects.filter(auction_id=1)
+	for item in all_items:
+		if (item.name == search_term) or (str(item.id) == search_term):
+			item_page = '/item_page/?item_id=' + str(item.id)
+			response = {
+				'status': 200, 
+				'item_id': item.id, 
+				'item_page': item_page,
+				}
+			return HttpResponse(json.dumps(response), content_type='application/json')
+	return HttpResponse({'status': 204}, content_type='application/json')
+
+
 """
 Pieces of register and user login code taken from 
 http://www.tangowithdjango.com/book/chapters/login.html

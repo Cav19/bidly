@@ -1,22 +1,33 @@
 $(document).ready(function(){
-  $('.carousel').slick({
-    infinite: true,
-    mobileFirst: true,
-    swipe: true,
-    touchMove: true,
-    slidesToShow: 3,
-    centerPadding: '60px',
-    arrows: true,
-  });
+	$('.carousel').slick({
+	infinite: true,
+	mobileFirst: true,
+	swipe: true,
+	touchMove: true,
+	slidesToShow: 3,
+	centerPadding: '60px',
+	arrows: true,
+	});
 
-  getItemBids();
+	getItemBids();
 
-  $(".item").click(function(){
-  	window.location.href = "/item_page/?item_id=" + this.id;
-  });
+	$(".item").click(function(){
+		window.location.href = "/item_page/?item_id=" + this.id;
+	});
+
+	$("#search-button").click(function() {
+		search_term = $('#search-term').val();
+		$.ajax({
+			method: 'GET',
+			url: '/search/',
+			data: {'search_term': search_term},
+			dataType: 'json',
+			success: goToItem,
+			error: searchError,
+		});
+	});
 });
-
- function getItemBids(){
+function getItemBids(){
 	var items = document.getElementsByClassName("item");
 	// TODO: Update this for loop to not get each of the items more than once if they're displayed more than once on the page. 
 	for(i = 0; i < items.length; i++){
@@ -47,3 +58,16 @@ var updateTopBid = function(data){
 var handleError = function(error){
 	console.log(JSON.stringify(error));
 };
+
+var goToItem = function(data) {
+	window.location.href = data.item_page; //relative to domain
+};
+
+var searchError = function(error) {
+	if (error.status == 200) {
+		alert('Sorry, no results were found for that search term.')
+	} else {
+		handleError(error);
+	}
+}
+
