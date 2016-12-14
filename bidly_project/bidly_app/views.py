@@ -11,6 +11,8 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.contrib.auth.models import Group
 from django.conf import settings as djangoSettings
+from PIL import Image
+from resizeimage import resizeimage
 import base64
 import os
 import json
@@ -18,6 +20,7 @@ import operator
 import re
 import datetime
 import random
+
 
 # Create your views here.
 
@@ -94,6 +97,12 @@ def item(request):
 	role = Role.objects.get(user=bidly_user)
 	groupName = role.role.name
 
+	# Find if auction is active
+	auction = item.auction
+	auction_started = True
+	if not auction.start_time or auction.end_time < datetime.now():
+		auction_started = False
+
 	mode = is_request_mobile(request)
 	cssFile = ""
 	if mode == "desktop":
@@ -101,7 +110,18 @@ def item(request):
 	elif mode == "mobile":
 		cssFile = "CSS\item_page.css"
 
-	context = {'name' : name, 'starting_price' : startingPrice, 'increment' : increment, 'image_path' : imagePath, 'value' : value, 'description' : description, 'role' : groupName, 'mode' : mode, 'css_file' : cssFile}
+	context = {
+		'name' : name, 
+		'starting_price' : startingPrice, 
+		'increment' : increment, 
+		'image_path' : imagePath, 
+		'value' : value, 
+		'description' : description, 
+		'role' : groupName, 
+		'mode' : mode, 
+		'css_file' : cssFile,
+		'auction_started': auction_started,
+	}
 	return render(request, 'item_page.html', context)
 
 def make_bid(request):
@@ -378,6 +398,7 @@ def create_auction(request):
 		print("Items: " + request.POST.get('items'))
 		items = json.loads(request.POST.get('items'))  # I hate this as much as you do
 		create_items_for_auction(items,newAuction,newDirectory)
+		resize_images(items)
 
 		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
 		return HttpResponse(json.dumps(response), content_type='application/json')
@@ -504,3 +525,13 @@ def image_test(request):
 		file.write(imgdata)
 		file.close()
 		return HttpResponse(json.dumps({"status" : 200}), content_type='application/json')
+
+
+def resize_images(items):
+	for item in items:
+		img_path = djangoSettings.STATIC_ROOT + item.image_path
+		image_file = open(img_path, 'r')
+		img = Image.open(image_file)
+		img = resizeimage.resize_crop(img, [400, 400])
+		img.save(img_path, img.format))
+		img.close()

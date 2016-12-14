@@ -69,7 +69,7 @@ body {
 	width: 40%;
 }
 
-#bid_button {
+.place-bid-button {
 	width: 80%;
 	height: 60px;
 	display: block;

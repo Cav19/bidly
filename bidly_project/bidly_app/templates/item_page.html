@@ -49,7 +49,11 @@
 
 			<div class="bid_div">
 				<p id="your_bid">Your Bid: $ <input id="bid_input" type="number" value=0 /></p>
-				<button id="bid_button">Place Bid</button>
+				{% if auction_started %}
+				<button id="bid_button" class="place-bid-button">Place Bid</button>
+				{% else %}
+				<button class="place-bid-button">Auction Closed </button>
+				{% endif %}
 				{% if role == "admin" or role == "volunteer" %}
 				<p id="for_p">For: <input id="for_input" type="text" placeholder="user"/></p>
 				{% endif %}
