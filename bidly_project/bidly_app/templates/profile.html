@@ -42,15 +42,15 @@
 	<ul class="nav nav-tabs nav-justified" id="main-tabs">
 		<li class="active"> <a data-toggle="tab" href="#my-bids"> My Bids </a></li>
 		<li> <a data-toggle="tab" href="#profile"> Profile </a></li>
-		{% if group == "admin" %}
 		<li> <a data-toggle="tab" href="#admin"> Admin </a></li>
+		{% if mode == "desktop" %}
 		<li> <a data-toggle="tab" href="#create-auction"> Create Auction </a></li>
 		{% endif %}
 	</ul>
 <!-- My Bids tab -->
 	<div class="tab-content">
 		<div id="my-bids" class="tab-pane fade in active">
-			{% if not mobile %}
+			{% if mode != "mobile" %}
 			<div class="container">
 			  <div class="row">
 			    <div class="col-md-6">
@@ -73,10 +73,10 @@
 						{% endfor %}
 						</div>
 					</div>
-				{% if not mobile %}
+				{% if mode != "mobile" %}
 				</div>
 				{% endif %}
-				{% if not mobile %}
+				{% if mode != "mobile" %}
 			    <div class="col-md-6">
 				{% endif %}
 					<div class="bid-section" style="background-color:orange">
@@ -125,11 +125,16 @@
 			<button class="btn btn-profile" id="change-pw">Change Password</button>
 		</div>
 
-		{% if group == 'admin' %}
 <!-- Admin tab -->
 		<div id="admin" class="tab-pane fade">
 			<div class='auction-name'</div>
-				<h2>Auction Name: {{auction_name}}</h2>
+				<h2>Auction Name: 
+					<select id="start-auction-select">
+						{% for auction in admin_auctions %}
+							<option value="{{auction.url}}">{{auction.url}}</option>
+						{% endfor %}
+					</select>
+				</h2>
 			</div>
 			<div class="container">
 				<div class="row">
@@ -225,7 +230,6 @@
 				</div>
 			</div>
 		</div>
-		{% endif %}
 
 	</div>
 </body>

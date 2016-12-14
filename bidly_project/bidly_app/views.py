@@ -56,13 +56,14 @@ def profile(request):
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/profile.css"
-	# user = request.user
-	# bidly_user = Bidly_User.objects.get(user=user)
-	# role = Role.objects.get(user=bidly_user)
-	# groupName = role.role.name
-
-	groupName = 'admin'
-	if groupName == 'admin':
+	#find all auctions they are admin of
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
+	adminRoles = Role.objects.filter(user=bidly_user)
+	adminAuctions = []
+	for role in adminRoles:
+		adminAuctions.append(role.auction)
+	if mode == 'desktop':
 		css_path = "CSS/profile_admin.css"
 
 	print("profile: get_user(request)", get_user(request))
@@ -75,7 +76,7 @@ def profile(request):
 		'losing_bids' : losing_bids,
 		'css_path': css_path,
 		'mode': mode,
-		'group': groupName,
+		'admin_auctions' : adminAuctions,
 	}
 	return render(request, 'profile.html', context)
 
@@ -355,6 +356,13 @@ def create_auction(request):
 		items = json.loads(request.POST.get('items'))  # I hate this as much as you do
 		create_items_for_auction(items,newAuction,newDirectory)
 
+		#automatically sets user as admin
+		user = request.user
+		bidly_user = Bidly_User.objects.get(user=user)
+		adminGroup = Group.objects.get(name="admin")
+		role = Role(user=bidly_user, auction=newAuction, role=adminGroup)
+		role.save()
+
 		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -422,37 +430,38 @@ def convert_b64_to_img(imageUrl):
 	return imgdata
 
 def begin_auction(request):
-	auctionId = request.POST.get("auction_id")
-	auction = Auction.objects.get(pk=auctionId)
+	auctionURL = request.POST.get("auction_url")
+	auction = Auction.objects.get(url=auctionURL)
 	
 	endTimeString = request.POST.get("end_time")
+	print("endTime: " + endTimeString)
 	dateTimeParts = endTimeString.split(" ")
 	dateString = dateTimeParts[0]
 	timeString = dateTimeParts[1]
 
-	dateParts = dateString.split("/")
-	month = int(dateParts[0])
-	day = int(dateParts[1])
-	year = int(dateParts[2])
+	dateParts = dateString.split("-")
+	year = int(dateParts[0])
+	month = int(dateParts[1])
+	day = int(dateParts[2])
 
 	timeParts = timeString.split(":")
 	hour = int(timeParts[0])
 	minute = int(timeParts[1])
 
-	endTime = datetime.datetime
-	endTime.month = month
-	endTime.day = day
-	endTime.year = year
-	endTime.hour = hour
-	endTime.minute = minute
+	endTime = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute)
+	# endTime.month = month
+	# endTime.day = day
+	# endTime.year = year
+	# endTime.hour = hour
+	# endTime.minute = minute
 
-	if endTime < datetime.now():
+	if endTime < datetime.datetime.now():
 		response = {"status":400, "error_message":"start_time is after end_time"}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
-	auction.start_time = datetime.now()
+	auction.start_time = datetime.datetime.now()
 	auction.end_time = endTime
-	response = {"status":200, "auction_id":auctionId, "auction_url":auction.url}
+	response = {"status":200, "auction_id":auction.pk, "auction_url":auctionURL}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def image_test(request):
