@@ -356,9 +356,9 @@ def get_popular_items(auction):
 	return popular_items
 
 def get_win_loss_bids(request):
-	all_items = Item.objects.filter(auction_id=1)
+	all_items = Item.objects.all()
 	user = Bidly_User.objects.get(user=request.user)
-	all_bids = Bid.objects.filter(item__auction_id=1, user=user).order_by('-timestamp') #Change this auction id later.
+	all_bids = Bid.objects.filter(user=user).order_by('-timestamp') #Change this auction id later.
 	winning_bids = []
 	losing_bids = []
 	for item in all_items:
