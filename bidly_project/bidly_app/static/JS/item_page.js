@@ -52,6 +52,10 @@ var handleCurrentBidError = function(error){
 	window.setTimeout(getCurrentBid,2000); //currently updates current bid every 2 seconds.
 }
 
+/*
+	Places a bid onto an item through an Ajax POST request. 
+	Also handles instances in which user bids are invalid. 
+*/
 function makeBid(){
 	var bid = Number($("#bid_input").val());
 
