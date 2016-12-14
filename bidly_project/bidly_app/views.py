@@ -117,13 +117,14 @@ def item(request):
 	value = item.value
 	description = item.description
 
+	#Find role for user in this auction
+	auction = item.auction
 	user = request.user
 	bidly_user = Bidly_User.objects.get(user=user)
-	role = Role.objects.get(user=bidly_user)
+	role = Role.objects.get(user=bidly_user, auction=item.auction)
 	groupName = role.role.name
 
 	# Find if auction is active
-	auction = item.auction
 	auction_started = True
 	if not auction.start_time or auction.end_time < datetime.datetime.now():
 		auction_started = False
@@ -147,7 +148,7 @@ def item(request):
 		'role' : groupName, 
 		'mode' : mode, 
 		'css_file' : cssFile,
-		'auction_started': auction_started,
+		'auction_started': True,
 	}
 	return render(request, 'item_page.html', context)
 
@@ -293,6 +294,16 @@ def user_login(request, auction_name=''):
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
+
+		#automatically sets user to bidder for auction
+		if auction_name != '':
+			bidly_user = Bidly_User.objects.get(user=user)
+			auction = Auction.objects.get(url=auction_name)
+			currRole = Role.objects.filter(user=bidly_user, auction=auction)
+			if currRole.count() == 0:
+				bidderGroup = Group.objects.get(name="bidder")
+				newRole = Role(user=bidly_user, auction=auction, role=bidderGroup)
+				newRole.save()
 
 		if user:
 			if user.is_active:
