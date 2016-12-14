@@ -21,21 +21,25 @@ import random
 # Create your views here.
 
 #@login_required(login_url='/user_login/')
-def home(request):
+def home(request, auction_name):
+	print(auction_name)
 	css_path="CSS/home_admin.css"
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/home.css"
-	all_items = Item.objects.all()
-	print(all_items)
-	all_categories = Category.objects.all()
+	auction = Auction.objects.filter(url=auction_name)
+	all_items = Item.objects.filter(auction=auction)
+	categories = []
+	for item in all_items:
+		if item.category not in categories:
+			categories.append(item.category)
 	items_by_category = {}
-	for category in all_categories:
-		items = Item.objects.filter(category=category)
+	for category in categories:
+		items = all_items.filter(category=category)
 		for item in items:
 			item.description = item.description[:80] + "..."
 		items_by_category[category] = items
-	popular_items = get_popular_items()
+	popular_items = get_popular_items(auction)
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
 	context = {
@@ -133,7 +137,8 @@ def get_top_bid(request):
 
 def search(request):
 	search_term = request.GET.get('search_term')
-	all_items = Item.objects.filter(auction_id=1)
+	auction = Auction.objects.filter(url=request.GET.get('auction_name'))
+	all_items = Item.objects.filter(auction=auction)
 	for item in all_items:
 		if (item.name == search_term) or (str(item.id) == search_term):
 			item_page = '/item_page/?item_id=' + str(item.id)
@@ -216,7 +221,7 @@ def user_login(request):
 				login(request, user)
 				print("login_2: get_user(request)", get_user(request))
 				print("login_2: request.user", request.user)
-				return home(request)
+				return profile(request)
 				# return render_to_response('home.html', c, RequestContext(request))
 			else:
 				return HttpResponse("Your account is disabled.")
@@ -279,10 +284,10 @@ def get_profile_info(request):
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
-def get_popular_items():
+def get_popular_items(auction):
 	item_counts = {}
 	popular_items_tuples = []
-	popular_bids = Bid.objects.filter(item__auction_id=1) #Change this auction id later. 
+	popular_bids = Bid.objects.filter(item__auction=auction) 
 	for bid in popular_bids:
 		if bid.item_id not in item_counts:
 			item_counts[bid.item_id] = 1

@@ -12,7 +12,7 @@ $(document).ready(function(){
 	getItemBids();
 
 	$(".item").click(function(){
-		window.location.href = "/item_page/?item_id=" + this.id;
+		window.location.href = "/item_page/?item_id=" + this.className.split(" ")[2];
 	});
 
 	/*
@@ -22,10 +22,11 @@ $(document).ready(function(){
 	*/
 	$("#search-button").click(function() {
 		search_term = $('#search-term').val();
+		auction_name = window.location.href.split('/')[4];
 		$.ajax({
 			method: 'GET',
 			url: '/search/',
-			data: {'search_term': search_term},
+			data: {'search_term': search_term, 'auction_name' : auction_name},
 			dataType: 'json',
 			success: goToItem,
 			error: searchError,
@@ -40,10 +41,11 @@ function getItemBids(){
 	var items = document.getElementsByClassName("item");
 	// TODO: Update this for loop to not get each of the items more than once if they're displayed more than once on the page. 
 	for(i = 0; i < items.length; i++){
+		item_id = items[i].className.split(" ")[2];
 		$.ajax({
 			method: 'GET',
-			url: '/get_top_bid',
-			data: {'item_id' : items[i].id}, // TODO: Update this so we don't require an id on each HTML element as well as a class. 
+			url: '/get_top_bid/',
+			data: {'item_id' : item_id}, // TODO: Update this so we don't require an id on each HTML element as well as a class. 
 			dataType: 'json',
 			success: updateTopBid, 
 			error: handleError
