@@ -35,7 +35,11 @@
 	{% else %}
 	<div id="login">
 	{% endif %}
+			{% if auction == "" %}
 			<form id="login_form" method="post" action="/user_login/">
+			{% else %}
+			<form id="login_form" method="post" action="/user_login/{{auction}}/">
+			{% endif %}
 				{% csrf_token %}
 				<input 
 					type="text"

@@ -26,7 +26,6 @@ import random
 
 #@login_required(login_url='/user_login/')
 def home(request, auction_name):
-	print(auction_name)
 	css_path="CSS/home_admin.css"
 	mode = is_request_mobile(request)
 	if mode == "mobile":
@@ -234,7 +233,7 @@ def register(request):
 	return render_to_response('login.html', c, RequestContext(request))
 
 
-def user_login(request):
+def user_login(request, auction_name=''):
 	"""
 	Pieces of register and user login code taken from 
 	http://www.tangowithdjango.com/book/chapters/login.html
@@ -247,7 +246,7 @@ def user_login(request):
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/login.css"
-	c = {'css_path': css_path, 'mode': mode}
+	c = {'css_path': css_path, 'mode': mode, 'auction' : auction_name}
 	c.update(csrf(request))
 
 	# Log user in to account
@@ -263,8 +262,10 @@ def user_login(request):
 				login(request, user)
 				print("login_2: get_user(request)", get_user(request))
 				print("login_2: request.user", request.user)
-				return profile(request)
-				# return render_to_response('home.html', c, RequestContext(request))
+				if auction_name != "":
+					return HttpResponseRedirect('/home/' + auction_name + '/')
+				else:
+					return HttpResponseRedirect('/profile/')
 			else:
 				return HttpResponse("Your account is disabled.") #TODO: handle response
 		else:
