@@ -6,6 +6,7 @@ from django.template import Context, loader, RequestContext, Template
 from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.contrib.auth.models import Group
@@ -46,6 +47,7 @@ def home(request):
 	}
 	return render(request, 'home.html', context)
 
+
 def profile(request):
 	css_path="CSS/profile.css"
 	mode = is_request_mobile(request)
@@ -72,6 +74,7 @@ def profile(request):
 		'mode': mode,
 		'group': groupName,
 	}
+	context.update(csrf(request))
 	return render(request, 'profile.html', context)
 
 # add code to actually render page based on item requested
@@ -145,58 +148,74 @@ def search(request):
 	return HttpResponse({'status': 204}, content_type='application/json')
 
 
-"""
-Pieces of register and user login code taken from 
-http://www.tangowithdjango.com/book/chapters/login.html
-"""
 def register(request):
+	"""
+	Pieces of register and user login code taken from 
+	http://www.tangowithdjango.com/book/chapters/login.html
+
+	The registration page allows users to create an account on the site.
+	Accounts have a Django's user model and an additional Bidly profile model.
+	When the user registers, their account is created, 
+	they are logged in, and redirected to the home page.
+	"""
+	# Context: Format page based on user's browser (mobile or web)
 	css_path = "CSS/login_web.css"
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/login.css"
 	c = {'css_path': css_path, 'mode': mode}
 	c.update(csrf(request))
+	print(css_path)
 
-	registered = False
+	# Form models created in forms.py for collecting user registration data.
+	user_form = UserForm()
+	profile_form = BidlyUserForm()
 
+	# Logic for registering an account
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = BidlyUserForm(data=request.POST)
 
 		if user_form.is_valid() and profile_form.is_valid():
+			# Create user object and password
 			user = user_form.save()
-
 			user.set_password(user.password)
 			user.save()
 
+			# Create corresponding profile for the user
 			profile = profile_form.save(commit=False)
 			profile.user = user
 			profile.save()
 
-			#TODO: change auction to be dynamic, and establish how different account are 'promoted'
+			# Assign user auction and default role as bidder
 			group = Group.objects.get(name="bidder")
-			auction = Auction.objects.get(pk=1)
+			auction = Auction.objects.get(pk=1) #TODO: change auction to be dynamic
 			role = Role(auction=auction, role=group, user=profile)
 			role.save()
 
-			registered = True
-			return HttpResponseRedirect('/home/')
+			# Log in the newlyr registered user.
+			login(request, user)
+
+			# Redirect to the home page
+			return home(request)
 		else:
+			# TODO: print error with user form validity
 			print(user_form.errors, profile_form.errors)
 			
-	else:
-		user_form = UserForm()
-		profile_form = BidlyUserForm()
-
 	c['user_form'] = user_form
 	c['profile_form'] = profile_form
-	c['registered'] = registered
-	return render_to_response(
-			'login.html', 
-			c, 
-			RequestContext(request))
+	return render_to_response('login.html', c, RequestContext(request))
+
 
 def user_login(request):
+	"""
+	Pieces of register and user login code taken from 
+	http://www.tangowithdjango.com/book/chapters/login.html
+
+	The login page allows users to log in to an already created account.
+	When the user logs in, they are redirected to the home page.
+	"""
+	# Context: Format page based on user's browser (mobile or web)
 	css_path="CSS/login_web.css"
 	mode = is_request_mobile(request)
 	if mode == "mobile":
@@ -204,45 +223,55 @@ def user_login(request):
 	c = {'css_path': css_path, 'mode': mode}
 	c.update(csrf(request))
 
+	# Log user in to account
 	if request.method == 'POST':
+		# Check that username and password match records
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
-		print("login_1: get_user(request)", get_user(request))
-		print("login_1: request.user", request.user)
+
 		if user:
 			if user.is_active:
+				# Log user in, and redirect to home page
 				login(request, user)
-				print("login_2: get_user(request)", get_user(request))
-				print("login_2: request.user", request.user)
 				return home(request)
-				# return render_to_response('home.html', c, RequestContext(request))
 			else:
-				return HttpResponse("Your account is disabled.")
+				return HttpResponse("Your account is disabled.") #TODO: handle response
 		else:
 			print("Your username or password is incorrect")
-			return HttpResponse("Invalid login details supplied")
+			return HttpResponse("Invalid login details supplied") #TODO: handle  response
 	else:
-		return render_to_response(
-			'login.html', 
-			c, 
-			RequestContext(request))
+		return render_to_response('login.html', c, RequestContext(request))
 
 
-# Need a way to have user id here too so can confirm old password entered is same as in database. And to update the password in the database I suppose...
 def changepw(request):
+	"""
+	Allows users to change their password.
+	Users must enter their old password, 
+	and enter matching new passwords twice in order to change the password.
+	"""
+	c = {}
+	c.update(csrf(request))
+
 	if request.method == 'POST':
 		old_password = request.POST['oldpw']
 		password = request.POST['newpw']
 		password_confirm = request.POST['confirmpw']
-		userId = 1 # HALPPPPP
-		if password == password_confirm:
-			user = Bidly_User.objects.get(pk=userId)
-			user.set_password(password)
-			user.save()
-			return render_to_response('profile.html')
+		user = request.user
+
+		# Check that user's password is correct
+		if user.check_password(old_password):
+			# Check that the new passwords match, and set the new password
+			if password == password_confirm:
+				user.set_password(password)
+				user.save()
+				# return HttpResponseRedirect('/user_login/')
+				# return render_to_response('profile.html', c, RequestContext(request))
+				return profile(request)
+			else:
+				return HttpResponse(json.dumps({'status' : 500, 'error' : "New Passwords Don't Match"}), content_type='application/json')
 		else:
-			return HttpResponse(json.dumps({'status' : 500, 'error' : "New Passwords Don't Match"}), content_type='application/json')
+			return HttpResponse(json.dumps({'status': 500, 'error': "Your password was incorrect"}), content_type='application/json')
 
 def change_profile(request):
 	userId = request.POST['userId']
