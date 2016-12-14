@@ -25,21 +25,25 @@ import random
 # Create your views here.
 
 #@login_required(login_url='/user_login/')
-def home(request):
+def home(request, auction_name):
+	print(auction_name)
 	css_path="CSS/home_admin.css"
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/home.css"
-	all_items = Item.objects.all()
-	print(all_items)
-	all_categories = Category.objects.all()
+	auction = Auction.objects.filter(url=auction_name)
+	all_items = Item.objects.filter(auction=auction)
+	categories = []
+	for item in all_items:
+		if item.category not in categories:
+			categories.append(item.category)
 	items_by_category = {}
-	for category in all_categories:
-		items = Item.objects.filter(category=category)
+	for category in categories:
+		items = all_items.filter(category=category)
 		for item in items:
 			item.description = item.description[:80] + "..."
 		items_by_category[category] = items
-	popular_items = get_popular_items()
+	popular_items = get_popular_items(auction)
 	print("home: get_user(request)", get_user(request))
 	print("home: request.user", request.user)
 	context = {
@@ -57,13 +61,14 @@ def profile(request):
 	mode = is_request_mobile(request)
 	if mode == "mobile":
 		css_path = "CSS/profile.css"
-	# user = request.user
-	# bidly_user = Bidly_User.objects.get(user=user)
-	# role = Role.objects.get(user=bidly_user)
-	# groupName = role.role.name
-
-	groupName = 'admin'
-	if groupName == 'admin':
+	#find all auctions they are admin of
+	user = request.user
+	bidly_user = Bidly_User.objects.get(user=user)
+	adminRoles = Role.objects.filter(user=bidly_user)
+	adminAuctions = []
+	for role in adminRoles:
+		adminAuctions.append(role.auction)
+	if mode == 'desktop':
 		css_path = "CSS/profile_admin.css"
 
 	print("profile: get_user(request)", get_user(request))
@@ -76,7 +81,7 @@ def profile(request):
 		'losing_bids' : losing_bids,
 		'css_path': css_path,
 		'mode': mode,
-		'group': groupName,
+		'admin_auctions' : adminAuctions,
 	}
 	context.update(csrf(request))
 	return render(request, 'profile.html', context)
@@ -156,7 +161,8 @@ def get_top_bid(request):
 
 def search(request):
 	search_term = request.GET.get('search_term')
-	all_items = Item.objects.filter(auction_id=1)
+	auction = Auction.objects.filter(url=request.GET.get('auction_name'))
+	all_items = Item.objects.filter(auction=auction)
 	for item in all_items:
 		if (item.name == search_term) or (str(item.id) == search_term):
 			item_page = '/item_page/?item_id=' + str(item.id)
@@ -255,7 +261,10 @@ def user_login(request):
 			if user.is_active:
 				# Log user in, and redirect to home page
 				login(request, user)
-				return home(request)
+				print("login_2: get_user(request)", get_user(request))
+				print("login_2: request.user", request.user)
+				return profile(request)
+				# return render_to_response('home.html', c, RequestContext(request))
 			else:
 				return HttpResponse("Your account is disabled.") #TODO: handle response
 		else:
@@ -328,10 +337,10 @@ def get_profile_info(request):
 	response = {'status': 200, 'username': username, 'email': email, 'phone_number': phone_number, 'password': password}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
-def get_popular_items():
+def get_popular_items(auction):
 	item_counts = {}
 	popular_items_tuples = []
-	popular_bids = Bid.objects.filter(item__auction_id=1) #Change this auction id later. 
+	popular_bids = Bid.objects.filter(item__auction=auction) 
 	for bid in popular_bids:
 		if bid.item_id not in item_counts:
 			item_counts[bid.item_id] = 1
@@ -400,6 +409,13 @@ def create_auction(request):
 		create_items_for_auction(items,newAuction,newDirectory)
 		resize_images(items)
 
+		#automatically sets user as admin
+		user = request.user
+		bidly_user = Bidly_User.objects.get(user=user)
+		adminGroup = Group.objects.get(name="admin")
+		role = Role(user=bidly_user, auction=newAuction, role=adminGroup)
+		role.save()
+
 		response = {"status" : 200, "auction_id" : newAuction.pk, "auction_url" : newAuction.url}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
@@ -467,37 +483,38 @@ def convert_b64_to_img(imageUrl):
 	return imgdata
 
 def begin_auction(request):
-	auctionId = request.POST.get("auction_id")
-	auction = Auction.objects.get(pk=auctionId)
+	auctionURL = request.POST.get("auction_url")
+	auction = Auction.objects.get(url=auctionURL)
 	
 	endTimeString = request.POST.get("end_time")
+	print("endTime: " + endTimeString)
 	dateTimeParts = endTimeString.split(" ")
 	dateString = dateTimeParts[0]
 	timeString = dateTimeParts[1]
 
-	dateParts = dateString.split("/")
-	month = int(dateParts[0])
-	day = int(dateParts[1])
-	year = int(dateParts[2])
+	dateParts = dateString.split("-")
+	year = int(dateParts[0])
+	month = int(dateParts[1])
+	day = int(dateParts[2])
 
 	timeParts = timeString.split(":")
 	hour = int(timeParts[0])
 	minute = int(timeParts[1])
 
-	endTime = datetime.datetime
-	endTime.month = month
-	endTime.day = day
-	endTime.year = year
-	endTime.hour = hour
-	endTime.minute = minute
+	endTime = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute)
+	# endTime.month = month
+	# endTime.day = day
+	# endTime.year = year
+	# endTime.hour = hour
+	# endTime.minute = minute
 
-	if endTime < datetime.now():
+	if endTime < datetime.datetime.now():
 		response = {"status":400, "error_message":"start_time is after end_time"}
 		return HttpResponse(json.dumps(response), content_type='application/json')
 
-	auction.start_time = datetime.now()
+	auction.start_time = datetime.datetime.now()
 	auction.end_time = endTime
-	response = {"status":200, "auction_id":auctionId, "auction_url":auction.url}
+	response = {"status":200, "auction_id":auction.pk, "auction_url":auctionURL}
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def image_test(request):

@@ -77,6 +77,10 @@ $(document).ready(function(){
     	readURL(this);
 	});
 
+	$("#start-auction").click(function(){
+		console.log("Start Auctions");
+		start_auction();
+	});
 });
 
 function onLoad(){
@@ -241,6 +245,28 @@ var create_auction = function(items){
 
 var auctionCreated = function(data){
 	console.log("Auction created!");
+	console.log(JSON.stringify(data));
+}
+
+var start_auction = function(){
+	var time = $("#time").val();
+	var date = $("#date").val();
+	console.log("Time: " + time);
+	console.log("Date: " + date);
+	var datetimeStr = date + " " + time;
+	var url = $("#start-auction-select").val();
+	var data = {"end_time" : datetimeStr, "auction_url" : url};
+	$.ajax({
+		method: 'POST',
+		url: '/begin_auction/',
+		data: data,
+		dataType: 'json',
+		success: auctionStarted,
+		error: handleError
+	});
+}
+
+var auctionStarted = function(data){
 	console.log(JSON.stringify(data));
 }
 
