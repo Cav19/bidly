@@ -86,28 +86,5 @@
       "value" : 1000,
       "description" : "The perfect concentrated smallpiper for any occassion. Look at that intense, concentrated posture. Wonderful for any occassion requring any type of melodious reel, jig, or even slow air! Heck, he'll even play a strathspey for you!"
     }
-  },
-
-
-  {
-    "model": "bidly_app.Bid",
-    "pk": 1,
-    "fields": {
-      "item" : 1,
-      "user" : 1,
-      "timestamp" : "2016-01-01 00:10",
-      "amount" : 300
-    }
-  },
-
-  {
-    "model": "bidly_app.Bid",
-    "pk": 2,
-    "fields": {
-      "item" : 1,
-      "user" : 1,
-      "timestamp" : "2016-01-01 00:20",
-      "amount" : 569
-    }
   }
 ]

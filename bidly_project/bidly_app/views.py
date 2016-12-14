@@ -481,9 +481,6 @@ def create_auction(request):
 		items = json.loads(request.POST.get('items'))  # I hate this as much as you do
 		create_items_for_auction(items, newAuction, newDirectory)
 
-		# Resize uploaded images to be square (for prettiness)
-		resize_images(items)
-
 		# Sets user creating the auction as the auction admin
 		user = request.user
 		bidly_user = Bidly_User.objects.get(user=user)
@@ -550,6 +547,8 @@ def create_items_for_auction(items, auction, imgDirectory):
 		relativePath = imgPath.split("static/")[1]#assumes static/ occurs once in path
 		itemObj.image_path = relativePath
 		itemObj.save()
+		# Resize uploaded images to be square (for prettiness)
+		resize_images(itemObj)
 
 
 def get_category_by_name(categoryName):
@@ -636,16 +635,16 @@ def image_test(request):
 		return HttpResponse(json.dumps({"status" : 200}), content_type='application/json')
 
 
-def resize_images(items):
+def resize_images(item):
 	"""
 	After images are uploaded, they are all resized to be squares.
 	This ensures each image fits into our template.
 	"""
-	for item in items:
-		img_path = djangoSettings.STATIC_ROOT + item.image_path
-		image = Image.open(img_path)
-		if image.mode not in ('L', 'RGB'):
-			image = image.convert('RGB')
-		size = min(image.width, image.height)
-		image = resizeimage.resize_crop(image, [size,size])
-		image.save(img_path, image.format)
+	# for item in items:
+	img_path = djangoSettings.STATIC_ROOT + item.image_path
+	image = Image.open(img_path)
+	if image.mode not in ('L', 'RGB'):
+		image = image.convert('RGB')
+	size = min(image.width, image.height)
+	image = resizeimage.resize_crop(image, [size,size])
+	image.save(img_path, image.format)
