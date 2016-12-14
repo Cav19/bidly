@@ -100,7 +100,7 @@ def item(request):
 	# Find if auction is active
 	auction = item.auction
 	auction_started = True
-	if not auction.start_time or auction.end_time < datetime.now():
+	if not auction.start_time: #or auction.end_time < datetime.now():
 		auction_started = False
 
 	mode = is_request_mobile(request)
@@ -528,10 +528,15 @@ def image_test(request):
 
 
 def resize_images(items):
+	"""
+	After images are uploaded, they are all resized to be squares.
+	This ensures each image fits into our template.
+	"""
 	for item in items:
 		img_path = djangoSettings.STATIC_ROOT + item.image_path
-		image_file = open(img_path, 'r')
-		img = Image.open(image_file)
-		img = resizeimage.resize_crop(img, [400, 400])
-		img.save(img_path, img.format))
-		img.close()
+		image = Image.open(img_path)
+		if image.mode not in ('L', 'RGB'):
+			image = image.convert('RGB')
+		size = min(image.width, image.height)
+		image = resizeimage.resize_crop(image, [size,size])
+		image.save(img_path, image.format)
