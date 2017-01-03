@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', bidly_views.login, name="login"),
     url(r'^register/$', bidly_views.register, name='register'),
-    url(r'^user_login/$', bidly_views.user_login, name="user_login"),
+    url(r'^user_login/$', bidly_views.no_auction_user_login, name="no_auction_user_login"),
     url(r'^user_login/(?P<auction_name>[\w]+)/$', bidly_views.user_login, name="user_login"),
     url(r'^profile/', bidly_views.profile, name="profile"),
     url(r'^item_page/$', bidly_views.item, name="item_page"),
@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^create_auction/$', bidly_views.create_auction, name="create_auction"),
     url(r'^begin_auction/$', bidly_views.begin_auction, name="begin_auction"),
     url(r'^image_test/$', bidly_views.image_test, name="image_test"),
+    url(r'^home/$', bidly_views.generic_home, name="generic_home"),
     url(r'^home/(?P<auction_name>[\w]+)/$', bidly_views.home, name="home"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

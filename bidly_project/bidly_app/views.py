@@ -12,7 +12,7 @@ from django.db.models import Count
 from django.contrib.auth.models import Group
 from django.conf import settings as djangoSettings
 from PIL import Image
-from resizeimage import resizeimage
+#from resizeimage import resizeimage
 import base64
 import os
 import json
@@ -23,6 +23,9 @@ import random
 
 
 # Create your views here.
+
+def generic_home(request):
+	return profile(request)
 
 def home(request, auction_name):
 	"""
@@ -91,12 +94,18 @@ def profile(request):
 	bids = get_win_loss_bids(request)
 	winning_bids = bids[0]
 	losing_bids = bids[1]
+	phone_number = bidly_user.phone_number
+	username = request.user.username
+	email = request.user.email
 	context = {
 		'winning_bids' : winning_bids, 
 		'losing_bids' : losing_bids,
 		'css_path': css_path,
 		'mode': mode,
 		'admin_auctions' : adminAuctions,
+		'email' : email,
+		'phone_number' : phone_number,
+		'username' : username,
 	}
 	context.update(csrf(request))
 	return render(request, 'profile.html', context)
@@ -271,6 +280,9 @@ def register(request):
 	c['profile_form'] = profile_form
 	return render_to_response('login.html', c, RequestContext(request))
 
+
+def no_auction_user_login(request):
+	return user_login(request, '')
 
 def user_login(request, auction_name=''):
 	"""
@@ -559,7 +571,7 @@ def create_items_for_auction(items, auction, imgDirectory):
 		itemObj.image_path = relativePath
 		itemObj.save()
 		# Resize uploaded images to be square (for prettiness)
-		resize_images(itemObj)
+		#resize_images(itemObj)
 
 
 def get_category_by_name(categoryName):
