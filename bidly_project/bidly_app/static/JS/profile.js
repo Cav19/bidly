@@ -84,29 +84,9 @@ $(document).ready(function(){
 });
 
 function onLoad(){
-	$.ajax({
-		method: 'GET',
-		url: '/get_profile_info',
-		data: {"userId" : 1},
-		dataType: 'json',
-		success: updateProfileInfo,
-		error: handleError
-	});
 	getItemBids();
 };
 
-
-var updateProfileInfo = function(data){
-	if(data.status == 200){
-		document.getElementById("email").placeholder = data.email;
-		document.getElementById("phone_number").placeholder = data.phone_number;
-		document.getElementById("username").placeholder = data.username;
-		password = data.password;
-	}
-	else{
-		console.log("Error getting profile info.");
-	}
-};
 
 var handleError = function(error){
 	console.log(JSON.stringify(error));
