@@ -64,7 +64,11 @@
 		{% else %}
 		<div id="register">
 		{% endif %}
+			{% if auction == "" %}
 			<form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
+			{% else %}
+			<form id="user_form" method="post" action="/register/{{auction}}/" enctype="multipart/form-data">
+			{% endif %}
 				{% csrf_token %}
 				<input 
 					type="text"

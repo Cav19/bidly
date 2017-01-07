@@ -221,8 +221,10 @@ def search(request):
 			return HttpResponse(json.dumps(response), content_type='application/json')
 	return HttpResponse({'status': 204}, content_type='application/json')
 
+def no_auction_register(request):
+	return register(request,auction_name='')
 
-def register(request):
+def register(request, auction_name=''):
 	"""
 	Pieces of register and user login code taken from 
 	http://www.tangowithdjango.com/book/chapters/login.html
@@ -262,16 +264,21 @@ def register(request):
 			profile.save()
 
 			# Assign user auction and default role as bidder
-			group = Group.objects.get(name="bidder")
-			auction = Auction.objects.get(pk=1) #TODO: change auction to be dynamic
-			role = Role(auction=auction, role=group, user=profile)
-			role.save()
+			if auction_name != '':
+				group = Group.objects.get(name="bidder")
+				auction = Auction.objects.get(url=auction_name) #TODO: change auction to be dynamic
+				role = Role(auction=auction, role=group, user=profile)
+				role.save()
 
-			# Log in the newlyr registered user.
+			# Log in the newly registered user.
 			login(request, user)
 
-			# Redirect to the home page
-			return home(request)
+			# Redirect to the home page if auction specified
+			if auction_name != '':
+				return home(request, auction_name)
+
+			#Redirect to profile page if auction is not specified
+			return generic_home(request)
 		else:
 			# TODO: print error with user form validity
 			print(user_form.errors, profile_form.errors)
