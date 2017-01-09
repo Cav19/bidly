@@ -234,18 +234,6 @@ def register(request, auction_name=''):
 	When the user registers, their account is created, 
 	they are logged in, and redirected to the home page.
 	"""
-	# Context: Format page based on user's browser (mobile or web)
-	css_path = "CSS/login_web.css"
-	mode = is_request_mobile(request)
-	if mode == "mobile":
-		css_path = "CSS/login.css"
-	c = {'css_path': css_path, 'mode': mode}
-	c.update(csrf(request))
-	print(css_path)
-
-	# Form models created in forms.py for collecting user registration data.
-	user_form = UserForm()
-	profile_form = BidlyUserForm()
 
 	# Logic for registering an account
 	if request.method == 'POST':
@@ -275,17 +263,15 @@ def register(request, auction_name=''):
 
 			# Redirect to the home page if auction specified
 			if auction_name != '':
-				return home(request, auction_name)
+				# return home(request, auction_name)
+				return HttpResponseRedirect('/home/' + auction_name + '/')
 
 			#Redirect to profile page if auction is not specified
-			return generic_home(request)
+			# return generic_home(request)
+			return HttpResponseRedirect('/profile/')
 		else:
 			# TODO: print error with user form validity
 			print(user_form.errors, profile_form.errors)
-			
-	c['user_form'] = user_form
-	c['profile_form'] = profile_form
-	return render_to_response('login.html', c, RequestContext(request))
 
 
 def no_auction_user_login(request):
